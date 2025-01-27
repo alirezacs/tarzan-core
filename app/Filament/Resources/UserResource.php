@@ -57,6 +57,11 @@ class UserResource extends Resource
                             ->native(false)
                             ->searchable()
                             ->preload()
+                    ]),
+                Forms\Components\Section::make('Avatar')
+                    ->schema([
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')
+                            ->collection('avatar')
                     ])
             ]);
     }
@@ -65,6 +70,9 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('avatar')
+                    ->collection('avatar')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
@@ -79,7 +87,7 @@ class UserResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('roles.name')
-                    ->getStateUsing(fn ($record) => $record->roles[0]->name),
+                    ->formatStateUsing(fn ($record) => $record->roles[0]->name),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

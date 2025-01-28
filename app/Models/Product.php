@@ -19,7 +19,8 @@ class Product extends Model implements HasMedia
         'product_category_id',
         'brand_id',
         'body',
-        'is_active'
+        'is_active',
+        'visited_counts'
     ];
 
     /**

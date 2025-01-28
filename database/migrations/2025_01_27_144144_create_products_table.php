@@ -27,6 +27,7 @@ return new class extends Migration
 
             $table->longText('body');
             $table->boolean('is_active')->default(true);
+            $table->bigInteger('visited_counts')->default(0);
             $table->timestamps();
         });
     }

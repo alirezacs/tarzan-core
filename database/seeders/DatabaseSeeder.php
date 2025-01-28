@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
            ColorTableSeeder::class,
            SizeTableSeeder::class,
            ProductVariantTableSeeder::class,
+           PetCategoryTableSeeder::class,
         ]);
     }
 }

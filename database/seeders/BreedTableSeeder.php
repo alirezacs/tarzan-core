@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\PetCategory;
+use App\Models\Breed;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PetCategoryTableSeeder extends Seeder
+class BreedTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        PetCategory::create([
-            'name' => 'Dog',
+        Breed::create([
+            'name' => 'Doberman',
             'is_active' => 1
         ]);
     }

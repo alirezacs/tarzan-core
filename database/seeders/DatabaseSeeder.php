@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
            PetCategoryTableSeeder::class,
            BreedTableSeeder::class,
            PetTableSeeder::class,
+           AddressTableSeeder::class,
         ]);
     }
 }

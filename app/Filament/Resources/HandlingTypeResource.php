@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RequestTypeResource\Pages;
-use App\Filament\Resources\RequestTypeResource\RelationManagers;
-use App\Models\RequestType;
+use App\Filament\Resources\HandlingTypeResource\Pages;
+use App\Filament\Resources\HandlingTypeResource\RelationManagers;
+use App\Models\HandlingType;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,9 +15,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class RequestTypeResource extends Resource
+class HandlingTypeResource extends Resource
 {
-    protected static ?string $model = RequestType::class;
+    protected static ?string $model = HandlingType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -30,11 +29,10 @@ class RequestTypeResource extends Resource
             ->schema([
                 Forms\Components\Section::make('Information')
                     ->schema([
-                        TextInput::make('name')
+                        Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
                         TextInput::make('description')
-                            ->required()
                             ->maxLength(255),
                         Forms\Components\Toggle::make('is_active')
                             ->required()
@@ -47,10 +45,9 @@ class RequestTypeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('description')
-                    ->limit(25),
+                TextColumn::make('description'),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->boolean()
+                    ->boolean(),
             ])
             ->filters([
                 //
@@ -76,9 +73,9 @@ class RequestTypeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRequestTypes::route('/'),
-            'create' => Pages\CreateRequestType::route('/create'),
-            'edit' => Pages\EditRequestType::route('/{record}/edit'),
+            'index' => Pages\ListHandlingTypes::route('/'),
+            'create' => Pages\CreateHandlingType::route('/create'),
+            'edit' => Pages\EditHandlingType::route('/{record}/edit'),
         ];
     }
 }

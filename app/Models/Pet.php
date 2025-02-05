@@ -12,6 +12,8 @@ class Pet extends Model implements HasMedia
 {
     use HasUuids, InteractsWithMedia;
 
+    protected $connection = 'mysql';
+
     protected $fillable = [
         'name',
         'birthdate',

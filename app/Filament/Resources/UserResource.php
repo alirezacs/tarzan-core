@@ -65,6 +65,8 @@ class UserResource extends Resource
                     ->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')
                             ->collection('avatar')
+                            ->imageEditor()
+                            ->avatar()
                     ])
             ]);
     }

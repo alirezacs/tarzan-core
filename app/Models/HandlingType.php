@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Model;
 
 class HandlingType extends Model
 {
-    protected $connection = 'mongodb';
+    use HasUlids;
 
-    protected $collection = 'handling_types';
+    protected $table = 'handling_types';
 
     protected $fillable = [
         'name',

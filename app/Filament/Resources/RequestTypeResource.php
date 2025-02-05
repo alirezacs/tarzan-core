@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RequestTypeResource\Pages;
 use App\Filament\Resources\RequestTypeResource\RelationManagers;
+use App\Models\HandlingType;
+use App\Models\Request;
 use App\Models\RequestType;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -37,7 +39,14 @@ class RequestTypeResource extends Resource
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Toggle::make('is_active')
+                            ->required(),
+                    ]),
+                Forms\Components\Section::make('Handling Types')
+                    ->schema([
+                        Forms\Components\Select::make('handling_types')
                             ->required()
+                            ->multiple()
+                            ->options(HandlingType::query()->where('is_active', true)->pluck('name', 'id')->toArray()),
                     ])
             ]);
     }
@@ -56,7 +65,11 @@ class RequestTypeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->modalDescription('Are You Sure? This Action May Delete All Requests With This Type. Delete?')
+                    ->before(function ($record){
+                        $record->requests()->delete();
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

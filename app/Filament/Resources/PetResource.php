@@ -47,6 +47,7 @@ class PetResource extends Resource
                             ->required()
                             ->collection('avatar')
                             ->imageEditor()
+                            ->avatar()
                     ]),
                 Forms\Components\Section::make('Select Parent')
                     ->schema([

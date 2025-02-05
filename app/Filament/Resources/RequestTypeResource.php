@@ -82,7 +82,7 @@ class RequestTypeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\HandlingTypesRelationManager::class
         ];
     }
 

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
            PetTableSeeder::class,
            AddressTableSeeder::class,
            HandlingTypeTableSeeder::class,
+           RequestTypeTableSeeder::class,
         ]);
     }
 }

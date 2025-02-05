@@ -26,4 +26,12 @@ class RequestType extends Model
     {
         return $this->belongsToMany(HandlingType::class, 'handling_type_request_type');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function requests(): HasMany
+    {
+        return $this->hasMany(Request::class);
+    }
 }

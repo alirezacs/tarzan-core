@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
-    protected $connection = 'mongodb';
+    use HasUlids;
 
     protected $fillable = [
         'user_id',
@@ -15,16 +16,16 @@ class Request extends Model
         'request_type_id',
         'handling_type_id',
         'status',
-        'details',
-        'description'
+        'description',
+        'address_id'
     ];
 
     /**
      * @return BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
      */
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function user(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -32,22 +33,22 @@ class Request extends Model
      */
     public function pet(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
     {
-        return $this->belongsTo(Pet::class, 'pet_id');
+        return $this->belongsTo(Pet::class);
     }
 
     /**
      * @return BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
      */
-    public function requestType(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function request_type(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
     {
         return $this->belongsTo(RequestType::class, 'request_type_id');
     }
 
     /**
-     * @return BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function handlingType(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function handling_type(): BelongsTo
     {
-        return $this->belongsTo(HandlingType::class, 'handling_type_id');
+        return $this->belongsTo(HandlingType::class);
     }
 }

@@ -41,13 +41,6 @@ class RequestTypeResource extends Resource
                         Forms\Components\Toggle::make('is_active')
                             ->required(),
                     ]),
-                Forms\Components\Section::make('Handling Types')
-                    ->schema([
-                        Forms\Components\Select::make('handling_types')
-                            ->required()
-                            ->multiple()
-                            ->options(HandlingType::query()->where('is_active', true)->pluck('name', 'id')->toArray()),
-                    ])
             ]);
     }
 

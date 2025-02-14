@@ -19,7 +19,9 @@ class Request extends Model
         'status',
         'description',
         'address_id',
-        'price'
+        'min_price',
+        'total_paid',
+        'max_price',
     ];
 
     /**

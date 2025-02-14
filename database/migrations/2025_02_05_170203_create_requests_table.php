@@ -43,7 +43,9 @@ return new class extends Migration
             $table->uuid('address_id')->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->nullOnDelete();
 
-            $table->string('price');
+            $table->string('min_price');
+            $table->string('total_paid');
+            $table->string('max_price');
             $table->timestamps();
         });
     }

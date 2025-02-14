@@ -87,11 +87,19 @@ class RequestResource extends Resource
                     ->description(fn ($get) => !$get('user_id') ? 'First Select a User' : null),
                 Forms\Components\Section::make('Pricing')
                     ->schema([
-                        TextInput::make('price')
+                        TextInput::make('min_price')
                             ->required()
                             ->integer()
-                            ->prefix('تومان')
-                    ]),
+                            ->prefix('تومان'),
+                        TextInput::make('max_price')
+                            ->required()
+                            ->integer()
+                            ->prefix('تومان'),
+                        TextInput::make('total_paid')
+                            ->required()
+                            ->integer()
+                            ->prefix('تومان'),
+                    ])->columns(3),
                 Forms\Components\Section::make('Status')
                     ->schema([
                         Select::make('status')

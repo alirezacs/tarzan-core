@@ -43,6 +43,7 @@ return new class extends Migration
             $table->uuid('address_id')->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->nullOnDelete();
 
+            $table->string('price');
             $table->timestamps();
         });
     }

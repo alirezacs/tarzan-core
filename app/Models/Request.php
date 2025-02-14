@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Request extends Model
 {
@@ -17,7 +18,8 @@ class Request extends Model
         'handling_type_id',
         'status',
         'description',
-        'address_id'
+        'address_id',
+        'price'
     ];
 
     /**
@@ -50,5 +52,13 @@ class Request extends Model
     public function handling_type(): BelongsTo
     {
         return $this->belongsTo(HandlingType::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function services(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
     }
 }

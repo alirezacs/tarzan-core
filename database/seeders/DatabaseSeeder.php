@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
            HandlingTypeTableSeeder::class,
            RequestTypeTableSeeder::class,
            RequestTableSeeder::class,
+           ServiceTableSeeder::class,
         ]);
     }
 }

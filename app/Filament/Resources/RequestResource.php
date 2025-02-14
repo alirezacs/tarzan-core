@@ -85,6 +85,13 @@ class RequestResource extends Resource
                             ->live(),
                     ])
                     ->description(fn ($get) => !$get('user_id') ? 'First Select a User' : null),
+                Forms\Components\Section::make('Pricing')
+                    ->schema([
+                        TextInput::make('price')
+                            ->required()
+                            ->integer()
+                            ->prefix('تومان')
+                    ]),
                 Forms\Components\Section::make('Status')
                     ->schema([
                         Select::make('status')

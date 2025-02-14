@@ -25,6 +25,7 @@ class RequestTableSeeder extends Seeder
             'status' => 'pending',
             'description' => null,
             'address_id' => User::first()->addresses()->first()->id,
+            'price' => '150000'
         ]);
     }
 }

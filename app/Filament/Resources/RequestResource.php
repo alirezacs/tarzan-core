@@ -168,7 +168,7 @@ class RequestResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ServicesRelationManager::make()
         ];
     }
 

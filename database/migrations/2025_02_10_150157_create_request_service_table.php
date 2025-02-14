@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('request_service', function (Blueprint $table) {
+            $table->boolean('is_paid')->default(false);
 
             // Request Relation
             $table->uuid('request_id');

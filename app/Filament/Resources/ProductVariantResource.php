@@ -65,6 +65,14 @@ class ProductVariantResource extends Resource
                             ->preload()
                             ->searchable()
                             ->native(false)
+                    ]),
+                Forms\Components\Section::make('Select Discount')
+                    ->schema([
+                        Forms\Components\Select::make('discount_id')
+                            ->relationship('discount', 'title')
+                            ->native(false)
+                            ->searchable()
+                            ->preload()
                     ])
             ]);
     }

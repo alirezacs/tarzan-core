@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
            RolePermissionTableSeeder::class,
            ProductCategoryTableSeeder::class,
            BrandTableSeeder::class,
+           DiscountTableSeeder::class,
            ProductTableSeeder::class,
            ColorTableSeeder::class,
            SizeTableSeeder::class,
@@ -31,7 +32,6 @@ class DatabaseSeeder extends Seeder
            RequestTableSeeder::class,
            ServiceTableSeeder::class,
            BasketTableSeeder::class,
-           DiscountTableSeeder::class,
         ]);
     }
 }

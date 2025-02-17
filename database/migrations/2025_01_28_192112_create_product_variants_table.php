@@ -30,6 +30,10 @@ return new class extends Migration
             $table->uuid('size_id')->nullable();
             $table->foreign('size_id')->references('id')->on('sizes')->nullOnDelete();
 
+            // Discount Relation
+            $table->uuid('discount_id')->nullable();
+            $table->foreign('discount_id')->references('id')->on('discounts')->nullOnDelete();
+
             $table->timestamps();
         });
     }

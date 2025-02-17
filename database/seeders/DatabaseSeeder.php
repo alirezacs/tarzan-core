@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
            RequestTypeTableSeeder::class,
            RequestTableSeeder::class,
            ServiceTableSeeder::class,
+           BasketTableSeeder::class,
         ]);
     }
 }

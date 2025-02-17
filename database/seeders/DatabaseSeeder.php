@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
            RequestTableSeeder::class,
            ServiceTableSeeder::class,
            BasketTableSeeder::class,
+           DiscountTableSeeder::class,
         ]);
     }
 }

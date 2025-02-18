@@ -28,6 +28,7 @@ class BasketResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'id')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name . ' ' . $record->last_name)
                     ->required()
                     ->disabled(),
             ]);

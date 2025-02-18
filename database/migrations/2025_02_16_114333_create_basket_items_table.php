@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('total_price');
             $table->string('total_discount')->nullable();
             $table->timestamps();
+
+            $table->unique(['basket_id', 'product_variant_id']);
         });
     }
 

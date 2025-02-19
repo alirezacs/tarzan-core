@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
@@ -19,7 +20,7 @@ class User extends Authenticatable implements HasName, HasMedia
     protected $connection = 'mysql';
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids, HasRoles, InteractsWithMedia;
+    use HasFactory, Notifiable, HasUuids, HasRoles, InteractsWithMedia, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -85,5 +86,13 @@ class User extends Authenticatable implements HasName, HasMedia
     public function basket(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Basket::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function activeCodes(): HasMany
+    {
+        return $this->hasMany(ActiveCode::class);
     }
 }

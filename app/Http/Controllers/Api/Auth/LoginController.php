@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Models\ActiveCode;
 use App\Models\User;
+use App\Notifications\LoginCodeNotification;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function authentication(LoginRequest $request)
+    /**
+     * @param LoginRequest $request
+     * @return Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+     */
+    public function authentication(LoginRequest $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         $credentials = $request->only('phone', 'password');
 
@@ -35,10 +43,54 @@ class LoginController extends Controller
             /* Generate Login Code */
 
             /* Notify To User */
-//            $user->notify(new LoginCodeNotification($code));
+            $user->notify(new LoginCodeNotification($code));
             /* Notify To User */
 
             return apiResponse([], 'کد یکبار مصرف برای شما ارسال شد');
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+     */
+    public function verifyCode(Request $request): Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    {
+        $request->validate([
+            'phone' => ['required', 'exists:users,phone'],
+            'code' => ['required', 'size:6']
+        ]);
+
+        $user = User::query()->where('phone', $request->phone)->first();
+
+        $result = ActiveCode::verifyCode($user, $request->code);
+
+        /* Check For Success Verify */
+        if(!$result){
+            return apiResponse([], 'کد وارد شده صحیح نمیباشد', 422, false);
+        }
+        /* Check For Success Verify */
+
+        $token = $user->createToken('Tarzan Api Login Token')->plainTextToken;
+
+        /* Delete User Codes */
+        $user->activeCodes()->delete();
+        /* Delete User Codes */
+
+        return apiResponse([
+            'token' => $token,
+            'user' => $user
+        ], 'با موفقیت وارد شدید');
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+     */
+    public function me(Request $request): Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    {
+        return apiResponse([
+            'user' => \auth()->user()
+        ]);
     }
 }

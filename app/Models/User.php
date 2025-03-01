@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
@@ -20,7 +21,7 @@ class User extends Authenticatable implements HasName, HasMedia
     protected $connection = 'mysql';
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids, HasRoles, InteractsWithMedia, HasApiTokens;
+    use HasFactory, Notifiable, HasUuids, HasRoles, InteractsWithMedia, HasApiTokens, AuthenticationLoggable;
 
     /**
      * The attributes that are mass assignable.

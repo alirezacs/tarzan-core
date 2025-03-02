@@ -48,19 +48,25 @@ class PetController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PetRequest $request, Pet $pet): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
     {
-        //
+        $data = $request->only([
+            'name',
+            'birthdate',
+            'gender',
+            'skin_color',
+            'is_active',
+            'pet_category_id',
+            'breed_id',
+        ]);
+
+        /* Update Pet */
+        $pet->update($data);
+        /* Update Pet */
+
+        return apiResponse(message: 'Pet updated successfully.');
     }
 
     /**

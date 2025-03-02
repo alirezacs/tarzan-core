@@ -25,6 +25,8 @@ class Pet extends Model implements HasMedia
         'user_id',
     ];
 
+    protected $with = ['media'];
+
     /**
      * @return BelongsTo
      */

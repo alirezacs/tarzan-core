@@ -96,4 +96,12 @@ class User extends Authenticatable implements HasName, HasMedia
     {
         return $this->hasMany(ActiveCode::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function pets(): HasMany
+    {
+        return $this->hasMany(Pet::class);
+    }
 }

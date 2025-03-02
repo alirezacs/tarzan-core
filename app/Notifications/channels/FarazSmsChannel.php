@@ -10,7 +10,7 @@ class FarazSmsChannel
 {
     public function send($notifiable, Notification $notification)
     {
-        $userName = 'Tarzan';
+        $userName = 'u09389901748';
 
         $password = urlencode('Faraz@1979420441221734');
 

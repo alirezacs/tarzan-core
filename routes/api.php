@@ -13,6 +13,13 @@ Route::post('login/verify', [LoginController::class, 'verifyCode']);
 Route::middleware(['auth:sanctum'])->group(function (){
     /* Me Route */
     Route::get('me', [LoginController::class, 'me']);
-    Route::put('user', [UserController::class, 'update']);
     /* Me Route */
+
+    /* Update Profile */
+    Route::put('user', [UserController::class, 'update']);
+    /* Update Profile */
+
+    /* Logout */
+    Route::post('logout', [LoginController::class, 'logout']);
+    /* Logout */
 });

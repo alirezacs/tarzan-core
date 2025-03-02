@@ -93,4 +93,11 @@ class LoginController extends Controller
             'user' => \auth()->user()
         ]);
     }
+
+    public function logout(Request $request): \Illuminate\Contracts\Foundation\Application|ResponseFactory|Application|Response
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return apiResponse(message: 'با موفقیت خارج شدید');
+    }
 }

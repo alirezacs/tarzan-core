@@ -32,14 +32,30 @@ class RequestTypeResource extends Resource
             ->schema([
                 Forms\Components\Section::make('Information')
                     ->schema([
-                        TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('description')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\Toggle::make('is_active')
-                            ->required(),
+                        Forms\Components\Section::make('Information')
+                            ->schema([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('description')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Toggle::make('is_active')
+                                    ->required(),
+                            ]),
+                        Forms\Components\Section::make('Pricing')
+                            ->schema([
+                                TextInput::make('min_price')
+                                    ->required()
+                                    ->integer()
+                                    ->minValue(0),
+                                TextInput::make('max_price')
+                                    ->required()
+                                    ->integer()
+                                    ->minValue(function ($get){
+                                        return $get('min_price');
+                                    }),
+                            ])
                     ]),
             ]);
     }

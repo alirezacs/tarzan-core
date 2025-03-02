@@ -87,14 +87,6 @@ class RequestResource extends Resource
                     ->description(fn ($get) => !$get('user_id') ? 'First Select a User' : null),
                 Forms\Components\Section::make('Pricing')
                     ->schema([
-                        TextInput::make('min_price')
-                            ->required()
-                            ->integer()
-                            ->prefix('تومان'),
-                        TextInput::make('max_price')
-                            ->required()
-                            ->integer()
-                            ->prefix('تومان'),
                         TextInput::make('total_paid')
                             ->required()
                             ->integer()
@@ -113,7 +105,14 @@ class RequestResource extends Resource
                                 'canceled' => 'Canceled',
                             ]),
                         TextInput::make('description')
-                            ->maxLength(255)
+                            ->maxLength(255),
+                        Forms\Components\Toggle::make('is_emergency')
+                    ]),
+                Forms\Components\Section::make('Time')
+                    ->schema([
+                        Forms\Components\DateTimePicker::make('handling_date')
+                            ->required()
+                            ->minDate(now())
                     ])
             ]);
     }

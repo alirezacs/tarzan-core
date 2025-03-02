@@ -17,6 +17,8 @@ class RequestTypeTableSeeder extends Seeder
             'name' => 'visit',
             'description' => 'Visit Request',
             'is_active' => true,
+            'min_price' => '15000',
+            'max_price' => '200000',
         ]);
     }
 }

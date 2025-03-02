@@ -24,6 +24,8 @@ class Request extends Model
         'min_price',
         'total_paid',
         'max_price',
+        'handling_date',
+        'is_emergency',
     ];
 
     /**

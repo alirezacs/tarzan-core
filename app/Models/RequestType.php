@@ -16,7 +16,9 @@ class RequestType extends Model
     protected $fillable = [
         'name',
         'description',
-        'is_active'
+        'is_active',
+        'min_price',
+        'max_price',
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\PetRequest;
 use Illuminate\Http\Request;
 
 class PetController extends Controller
@@ -16,19 +17,25 @@ class PetController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PetRequest $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        //
+        $data = $request->only([
+            'name',
+            'birthdate',
+            'gender',
+            'skin_color',
+            'is_active',
+            'pet_category_id',
+            'breed_id',
+        ]);
+
+        /* Create Pet */
+        $pet = auth()->user()->pets()->create($data);
+        /* Create Pet */
+
+        return apiResponse($pet->toArray(), 'Pet created successfully.');
     }
 
     /**

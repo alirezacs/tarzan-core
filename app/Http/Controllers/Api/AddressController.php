@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AddressRequest;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -38,9 +39,9 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Address $address): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        //
+        return apiResponse($address->toarray());
     }
 
     /**

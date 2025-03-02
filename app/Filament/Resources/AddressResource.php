@@ -5,13 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AddressResource\Pages;
 use App\Filament\Resources\AddressResource\RelationManagers;
 use App\Models\Address;
+use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 
 class AddressResource extends Resource
 {
@@ -30,12 +34,21 @@ class AddressResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('address')
-                            ->columnSpanFull(),
+                        TextArea::make('address')
+                            ->required(),
                         Forms\Components\TextInput::make('latitude')
+                            ->live()
+                            ->disabled()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('longitude')
+                            ->live()
+                            ->disabled()
                             ->maxLength(255),
+                        Map::make('location')
+                            ->defaultLocation(latitude: 35.7219, longitude: 51.3347)
+                            ->liveLocation(true, true)
+                            ->clickable(true)
+                            ->afterStateUpdated(fn ($state, $set) => $set('latitude', $state['lat']) && $set('longitude', $state['lng']))
                     ]),
                 Forms\Components\Section::make('Select User')
                     ->schema([

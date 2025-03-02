@@ -24,8 +24,8 @@ class AddressRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string'],
-            'latitude' => ['nullable', 'string'],
-            'longitude' => ['nullable', 'string'],
+            'latitude' => ['nullable', 'between:-90,90'],
+            'longitude' => ['nullable', 'between:-180,180'],
         ];
     }
 }

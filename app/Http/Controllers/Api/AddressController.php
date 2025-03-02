@@ -45,19 +45,22 @@ class AddressController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AddressRequest $request, Address $address): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        //
+        $data = $request->only([
+            'name',
+            'address',
+            'latitude',
+            'longitude'
+        ]);
+
+        /* Update Address */
+        $address->update($data);
+        /* Update Address */
+
+        return apiResponse(message: 'Address updated successfully.');
     }
 
     /**

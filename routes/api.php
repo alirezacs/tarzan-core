@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\PetController;
 use App\Http\Controllers\Api\BreedController;
+use App\Http\Controllers\Api\ProductController;
 
 /* Auth Routes */
 Route::post('login', [LoginController::class, 'authentication']);
@@ -39,3 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
 /* Breed Routes */
 Route::apiResource('breed', BreedController::class)->only(['index', 'show']);
 /* Breed Routes */
+
+/* Product Routes */
+Route::apiResource('product', ProductController::class);
+/* Product Routes */

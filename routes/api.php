@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\PetController;
+use App\Http\Controllers\Api\BreedController;
 
 /* Auth Routes */
 Route::post('login', [LoginController::class, 'authentication']);
@@ -32,4 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function (){
     /* Pet Routes */
     Route::apiResource('pet', PetController::class);
     /* Pet Routes */
+
 });
+
+/* Breed Routes */
+Route::apiResource('breed', BreedController::class)->only(['index', 'show']);
+/* Breed Routes */

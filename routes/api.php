@@ -42,5 +42,5 @@ Route::apiResource('breed', BreedController::class)->only(['index', 'show']);
 /* Breed Routes */
 
 /* Product Routes */
-Route::apiResource('product', ProductController::class);
+Route::apiResource('product', ProductController::class)->only(['index', 'show']);
 /* Product Routes */

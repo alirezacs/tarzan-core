@@ -21,6 +21,11 @@ class ProductVariant extends Model
         'size_id',
     ];
 
+    protected $with = [
+        'color',
+        'size'
+    ];
+
     /**
      * @return BelongsTo
      */

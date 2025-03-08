@@ -20,6 +20,10 @@ class BasketItem extends Model
         'total_discount',
     ];
 
+    protected $with = [
+        'productVariant',
+    ];
+
     /**
      * @return BelongsTo
      */

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\PetController;
 use App\Http\Controllers\Api\BreedController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\BasketController;
 
 /* Auth Routes */
 Route::post('login', [LoginController::class, 'authentication']);
@@ -34,6 +35,10 @@ Route::middleware(['auth:sanctum'])->group(function (){
     /* Pet Routes */
     Route::apiResource('pet', PetController::class);
     /* Pet Routes */
+
+    /* Basket Routes */
+    Route::apiResource('basket', BasketController::class);
+    /* Basket Routes */
 
 });
 

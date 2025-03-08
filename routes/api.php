@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PetController;
 use App\Http\Controllers\Api\BreedController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\BasketController;
+use App\Http\Controllers\Api\BasketItemController;
 
 /* Auth Routes */
 Route::post('login', [LoginController::class, 'authentication']);
@@ -37,8 +38,14 @@ Route::middleware(['auth:sanctum'])->group(function (){
     /* Pet Routes */
 
     /* Basket Routes */
-    Route::apiResource('basket', BasketController::class);
+    Route::apiResource('basket', BasketController::class)->only(['index']);
     /* Basket Routes */
+
+    /* Basket Item Routes */
+    Route::apiResource('basket-item', BasketItemController::class);
+    Route::post('basket-item/add-quantity', [BasketItemController::class, 'addQuantity']);
+    Route::post('basket-item/decrease-quantity', [BasketItemController::class, 'decreaseQuantity']);
+    /* Basket Item Routes */
 
 });
 

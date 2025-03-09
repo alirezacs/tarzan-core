@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BasketResource extends Resource
@@ -76,5 +77,30 @@ class BasketResource extends Resource
             'create' => Pages\CreateBasket::route('/create'),
             'edit' => Pages\EditBasket::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-basket');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-basket', 'create-basket', 'edit-basket', 'delete-basket']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-basket');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-basket');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-basket');
     }
 }

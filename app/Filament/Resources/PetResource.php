@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PetResource extends Resource
@@ -138,5 +139,30 @@ class PetResource extends Resource
             'create' => Pages\CreatePet::route('/create'),
             'edit' => Pages\EditPet::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-pet');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-pet', 'create-pet', 'edit-pet', 'delete-pet']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-pet');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-pet');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-pet');
     }
 }

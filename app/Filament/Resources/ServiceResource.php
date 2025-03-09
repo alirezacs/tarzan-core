@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ServiceResource extends Resource
@@ -92,5 +93,30 @@ class ServiceResource extends Resource
             'create' => Pages\CreateService::route('/create'),
             'edit' => Pages\EditService::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-service');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-service', 'create-service', 'edit-service', 'delete-service']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-service');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-service');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-service');
     }
 }

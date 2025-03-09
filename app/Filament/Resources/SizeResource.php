@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SizeResource extends Resource
@@ -84,5 +85,30 @@ class SizeResource extends Resource
             'create' => Pages\CreateSize::route('/create'),
             'edit' => Pages\EditSize::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-size');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-size', 'create-size', 'edit-size', 'delete-size']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-size');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-size');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-size');
     }
 }

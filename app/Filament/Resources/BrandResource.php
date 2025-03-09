@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BrandResource extends Resource
@@ -92,5 +93,30 @@ class BrandResource extends Resource
             'create' => Pages\CreateBrand::route('/create'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-brand');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-brand', 'create-brand', 'edit-brand', 'delete-brand']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-brand');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-brand');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-brand');
     }
 }

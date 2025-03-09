@@ -47,10 +47,10 @@ class RolePermissionTableSeeder extends Seeder
             'edit-discount',
             'delete-discount',
 
-            'read-handling_types',
-            'create-handling_types',
-            'edit-handling_types',
-            'delete-handling_types',
+            'read-handling_type',
+            'create-handling_type',
+            'edit-handling_type',
+            'delete-handling_type',
 
             'read-permission',
             'create-permission',

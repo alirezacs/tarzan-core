@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestTypeResource extends Resource
@@ -102,5 +103,30 @@ class RequestTypeResource extends Resource
             'create' => Pages\CreateRequestType::route('/create'),
             'edit' => Pages\EditRequestType::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-request_type');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-request_type', 'create-request_type', 'edit-request_type', 'delete-request_type']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-request_type');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-request_type');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-request_type');
     }
 }

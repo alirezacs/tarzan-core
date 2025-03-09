@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class HandlingTypeResource extends Resource
@@ -77,5 +78,30 @@ class HandlingTypeResource extends Resource
             'create' => Pages\CreateHandlingType::route('/create'),
             'edit' => Pages\EditHandlingType::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-handling_type');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-handling_type', 'create-handling_type', 'edit-handling_type', 'delete-handling_type']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-handling_type');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-handling_type');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-handling_type');
     }
 }

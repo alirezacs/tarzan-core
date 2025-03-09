@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ArticleCategory;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,6 +33,8 @@ class DatabaseSeeder extends Seeder
            RequestTableSeeder::class,
            ServiceTableSeeder::class,
            BasketTableSeeder::class,
+           ArticleCategoryTableSeeder::class,
+           ArticleTableSeeder::class,
         ]);
     }
 }

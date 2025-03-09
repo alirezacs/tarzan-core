@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -132,5 +133,8 @@ class RolePermissionTableSeeder extends Seeder
 
         /* Assign Permissions */
         $developer->givePermissionTo($permissions);
+
+        /* Assign Role To User */
+        User::first()->assignRole('developer');
     }
 }

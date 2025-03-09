@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasName, HasMedia
+class User extends Authenticatable implements HasName, HasMedia, HasAvatar
 {
     protected $connection = 'mysql';
 
@@ -62,7 +63,12 @@ class User extends Authenticatable implements HasName, HasMedia
 
     public function getFilamentName(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name . ' ' . $this->last_name . '(' . $this->roles[0]->name . ')';
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('avatar') ? $this->getFirstMediaUrl('avatar') : null;
     }
 
     /**

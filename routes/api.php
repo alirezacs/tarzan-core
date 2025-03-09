@@ -39,10 +39,11 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     /* Basket Routes */
     Route::apiResource('basket', BasketController::class)->only(['index']);
+    Route::post('basket/pay', [BasketController::class, 'pay']);
     /* Basket Routes */
 
     /* Basket Item Routes */
-    Route::apiResource('basket-item', BasketItemController::class);
+    Route::apiResource('basket-item', BasketItemController::class)->only(['store']);
     Route::post('basket-item/add-quantity', [BasketItemController::class, 'addQuantity']);
     Route::post('basket-item/decrease-quantity', [BasketItemController::class, 'decreaseQuantity']);
     /* Basket Item Routes */

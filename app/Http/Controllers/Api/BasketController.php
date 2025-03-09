@@ -15,4 +15,27 @@ class BasketController extends Controller
     {
         return apiResponse(auth()->user()->basket->basketItems->toArray());
     }
+
+    public function pay(Request $request)
+    {
+        $user = auth()->user();
+        $basket = $user->basket()->firstOrCreate();
+
+        /* Check For Exists Item In Basket */
+        if(!count($basket->basketItems)){
+            return apiResponse(message: 'Basket Is Empty');
+        }
+        /* Check For Exists Item In Basket */
+
+        /* Calc Total Price */
+        $totalPrice = 0;
+        foreach ($basket->basketItems as $basketItem){
+            $totalPrice += $basketItem->total_price;
+        }
+        /* Calc Total Price */
+
+        /* Make Zarinpal */
+
+        /* Make Zarinpal */
+    }
 }

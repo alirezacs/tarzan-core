@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\BreedController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\BasketController;
 use App\Http\Controllers\Api\BasketItemController;
+use App\Http\Controllers\Api\ArticleController;
 
 /* Auth Routes */
 Route::post('login', [LoginController::class, 'authentication']);
@@ -57,3 +58,7 @@ Route::apiResource('breed', BreedController::class)->only(['index', 'show']);
 /* Product Routes */
 Route::apiResource('product', ProductController::class)->only(['index', 'show']);
 /* Product Routes */
+
+/* Article Routes */
+Route::apiResource('article', ArticleController::class);
+/* Article Routes */

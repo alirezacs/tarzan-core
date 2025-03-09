@@ -136,13 +136,13 @@ class RolePermissionTableSeeder extends Seeder
         ];
 
         foreach ($roles as $role) {
-            $developer = Role::create([
+            Role::create([
                 'name' => $role,
             ]);
         }
 
         /* Assign Permissions */
-        $developer->givePermissionTo($permissions);
+        Role::query()->where('name', 'developer')->first()->givePermissionTo($permissions);
 
         /* Assign Role To User */
         User::first()->assignRole('developer');

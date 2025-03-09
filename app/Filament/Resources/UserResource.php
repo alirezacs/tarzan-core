@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
@@ -21,7 +22,6 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Users';
-
 
     public static function form(Form $form): Form
     {
@@ -130,5 +130,30 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-user');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can(['read-user', 'create-user', 'edit-user', 'delete-user']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->can('create-user');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->can('edit-user');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->can('delete-user');
     }
 }

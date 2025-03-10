@@ -30,6 +30,10 @@ return new class extends Migration
             $table->uuid('handling_type_id')->nullable();
             $table->foreign('handling_type_id')->references('id')->on('handling_types');
 
+            // Veterinarian Relation
+            $table->uuid('veterinarian_id')->nullable();
+            $table->foreign('veterinarian_id')->references('id')->on('users')->nullOnDelete();
+
             $table->enum('status', [
                 'pending',
                 'accepted',

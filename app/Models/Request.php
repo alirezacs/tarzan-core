@@ -26,28 +26,37 @@ class Request extends Model
         'max_price',
         'handling_date',
         'is_emergency',
+        'veterinarian_id'
     ];
 
     /**
-     * @return BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function user(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * @return BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function pet(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function veterinarian(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'veterinarian_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function pet(): BelongsTo
     {
         return $this->belongsTo(Pet::class);
     }
 
     /**
-     * @return BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function request_type(): BelongsTo|\MongoDB\Laravel\Relations\BelongsTo
+    public function request_type(): BelongsTo
     {
         return $this->belongsTo(RequestType::class, 'request_type_id');
     }

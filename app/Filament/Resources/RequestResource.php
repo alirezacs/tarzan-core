@@ -9,6 +9,7 @@ use App\Models\HandlingType;
 use App\Models\Pet;
 use App\Models\Request;
 use App\Models\RequestType;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -19,6 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 
 class RequestResource extends Resource
@@ -55,6 +57,16 @@ class RequestResource extends Resource
                             ->live()
                     ])
                     ->description(fn ($get) => !$get('request_type_id') ? 'First Select Type' : null),
+                Forms\Components\Section::make('Select Veterinarian')
+                    ->schema([
+                        Forms\Components\Select::make('veterinarian_id')
+                            ->relationship('veterinarian', 'first_name')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name . ' ' . $record->last_name)
+                            ->native(false)
+                            ->nullable()
+                            ->searchable()
+                            ->preload()
+                    ]),
                 Forms\Components\Section::make('Select User')
                     ->schema([
                         Forms\Components\Select::make('user_id')
@@ -128,6 +140,9 @@ class RequestResource extends Resource
                     ->prefix(function ($record){
                         return new HtmlString("<img src='{$record->user->getFirstMediaUrl('avatar')}' style='width: 35px; height: 35px; border-radius: 50%; display: inline-block; margin-right: 10px'>");
                     }),
+                Tables\Columns\TextColumn::make('veterinarian.first_name')
+                    ->getStateUsing(fn ($record) => $record->veterinarian ? $record->veterinarian->first_name . ' ' . $record->veterinarian->last_name : null)
+                    ->default('No Veterinarian Accepted'),
                 Tables\Columns\TextColumn::make('pet.name')
                     ->searchable()
                     ->prefix(function ($record){
@@ -163,6 +178,16 @@ class RequestResource extends Resource
                     ->preload()
             ])
             ->actions([
+                Tables\Actions\Action::make('Accept')
+                    ->label('Accept Request')
+                    ->icon('heroicon-o-check-badge')
+                    ->visible(fn ($record) => is_null($record->veterinarian_id))
+                    ->requiresConfirmation()
+                    ->action(function ($record){
+                        $record->update([
+                            'veterinarian_id' => auth()->user()->id,
+                        ]);
+                    }),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])

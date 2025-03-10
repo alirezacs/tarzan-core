@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
            BasketTableSeeder::class,
            ArticleCategoryTableSeeder::class,
            ArticleTableSeeder::class,
+           TransactionTableSeeder::class,
         ]);
     }
 }

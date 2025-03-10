@@ -86,6 +86,7 @@ class RolePermissionTableSeeder extends Seeder
             'create-request',
             'edit-request',
             'delete-request',
+            'accept-request',
 
             'read-request_type',
             'create-request_type',

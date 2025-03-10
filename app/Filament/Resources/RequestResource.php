@@ -58,6 +58,7 @@ class RequestResource extends Resource
                     ])
                     ->description(fn ($get) => !$get('request_type_id') ? 'First Select Type' : null),
                 Forms\Components\Section::make('Select Veterinarian')
+                    ->visible(fn () => auth()->user()->hasRole(['developer', 'manager']))
                     ->schema([
                         Forms\Components\Select::make('veterinarian_id')
                             ->relationship('veterinarian', 'first_name')
@@ -181,7 +182,7 @@ class RequestResource extends Resource
                 Tables\Actions\Action::make('Accept')
                     ->label('Accept Request')
                     ->icon('heroicon-o-check-badge')
-                    ->visible(fn ($record) => is_null($record->veterinarian_id))
+                    ->visible(fn ($record) => auth()->user()->can('accept-request') && is_null($record->veterinarian_id))
                     ->requiresConfirmation()
                     ->action(function ($record){
                         $record->update([

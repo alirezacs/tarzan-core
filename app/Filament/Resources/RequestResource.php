@@ -16,6 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -159,7 +160,17 @@ class RequestResource extends Resource
                 Tables\Filters\SelectFilter::make('type')
                     ->relationship('request_type', 'name')
                     ->multiple()
-                    ->preload()
+                    ->preload(),
+                SelectFilter::make('status')
+                    ->options([
+                        'pending_pay' => 'Pending Pay',
+                        'completed' => 'Completed',
+                        'canceled' => 'Cancelled',
+                    ])
+                    ->query(fn ($query, $data) => $query->where('status', $data['value']))
+                    ->native(false),
+                Tables\Filters\Filter::make('my requests')
+                    ->query(fn ($query) => $query->where('veterinarian_id', auth()->user()->id))
             ])
             ->actions([
                 Tables\Actions\Action::make('Accept')

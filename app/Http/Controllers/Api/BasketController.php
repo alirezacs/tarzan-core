@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BasketRequest;
 use App\Models\Transaction;
+use App\Services\BasketService;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -67,6 +68,39 @@ class BasketController extends Controller
 
     public function verify(Request $request)
     {
-        dd($request->all());
+        $authority = $request->Authority;
+        $transaction = Transaction::query()->where('authority', $authority)->first();
+
+        /* Verify Payment */
+        try {
+            $zarinpal = zarinpal()
+                ->amount($transaction->amount)
+                ->verification()
+                ->authority($transaction->authority)
+                ->send();
+        }catch (\Exception $e){
+            // todo Event
+            return apiResponse(message: 'Error In Verify Payment:' . $e->getMessage());
+        }
+        /* Verify Payment */
+
+        if($zarinpal->success()){
+            $transaction->update([
+                'status' => 'payed'
+            ]);
+
+            // Convert Basket To Order
+            BasketService::convertBasketToOrder($transaction->user->basket->first());
+
+            // Return To Front
+            dd('Payed');
+        }else{
+            $transaction->update([
+                'status' => 'cancelled'
+            ]);
+
+            // Return To Front
+            dd('failed');
+        }
     }
 }

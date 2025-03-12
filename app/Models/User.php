@@ -117,4 +117,12 @@ class User extends Authenticatable implements HasName, HasMedia, HasAvatar, Fila
     {
         return $this->hasMany(Pet::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

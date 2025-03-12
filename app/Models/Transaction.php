@@ -15,7 +15,6 @@ class Transaction extends Model
         'authority',
         'fee',
         'fee_type',
-        'code',
         'status',
         'user_id',
     ];

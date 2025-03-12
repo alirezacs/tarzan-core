@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BasketRequest;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -34,12 +35,38 @@ class BasketController extends Controller
         }
         /* Calc Total Price */
 
-        /* Make Transaction */
-
-        /* Make Transaction */
-
+        /* Make Zarinpal */
+        try {
+            $zarinpal = zarinpal()
+                ->amount($totalPrice)
+                ->request()
+                ->description('خرید محصول از فروشگاه تارزان')
+                ->callbackUrl(route('basket.verify'))
+                ->send();
+            if(!$zarinpal->success()){
+                return apiResponse(message: $zarinpal->error()->message(), status: 500);
+            }
+        }catch (\Exception $e){
+            // todo Event
+            return apiResponse(message: 'Error In Make Payment');
+        }
         /* Make Zarinpal */
 
-        /* Make Zarinpal */
+        /* Make Transaction */
+        $user->transactions()->create([
+            'amount' => $totalPrice,
+            'authority' => $zarinpal->authority(),
+            'fee' => $zarinpal->fee(),
+            'fee_type' => $zarinpal->feeType(),
+        ]);
+        /* Make Transaction */
+
+        return apiResponse(data: ['payment' => $zarinpal->url()], message: 'Payment Created Successfully');
+
+    }
+
+    public function verify(Request $request)
+    {
+        dd($request->all());
     }
 }

@@ -19,7 +19,6 @@ class TransactionTableSeeder extends Seeder
             'authority' => 'test',
             'fee' => 'test',
             'fee_type' => 'test',
-            'code' => 'test',
             'status' => 'payed',
             'user_id' => User::first()->id,
         ]);

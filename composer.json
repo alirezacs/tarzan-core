@@ -13,6 +13,7 @@
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "pishran/zarinpal": "^4.3",
         "spatie/laravel-permission": "^6.10",
         "tapp/filament-authentication-log": "3.1"
     },

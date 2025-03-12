@@ -44,7 +44,8 @@ class RequestResource extends Resource
                             ->searchable()
                             ->preload()
                             ->live()
-                    ]),
+                    ])
+                    ->hiddenOn('edit'),
                 Forms\Components\Section::make('Select Handling Type')
                     ->schema([
                         Select::make('handling_type_id')
@@ -56,7 +57,8 @@ class RequestResource extends Resource
                             ->disabled(fn ($get) => !$get('request_type_id'))
                             ->live()
                     ])
-                    ->description(fn ($get) => !$get('request_type_id') ? 'First Select Type' : null),
+                    ->description(fn ($get) => !$get('request_type_id') ? 'First Select Type' : null)
+                    ->hiddenOn('edit'),
                 Forms\Components\Section::make('Select Veterinarian')
                     ->visible(fn () => auth()->user()->hasRole(['developer', 'manager']))
                     ->schema([
@@ -106,7 +108,7 @@ class RequestResource extends Resource
                             ->integer()
                             ->prefix('تومان'),
                     ])->columns(3),
-                Forms\Components\Section::make('Status')
+                Forms\Components\Section::make('Extra Information')
                     ->schema([
                         TextInput::make('description')
                             ->maxLength(255),

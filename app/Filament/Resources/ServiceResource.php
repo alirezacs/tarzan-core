@@ -102,7 +102,7 @@ class ServiceResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-service', 'create-service', 'edit-service', 'delete-service']);
+        return auth()->user()->canAny(['read-service', 'create-service', 'edit-service', 'delete-service']);
     }
 
     public static function canCreate(): bool

@@ -108,16 +108,6 @@ class RequestResource extends Resource
                     ])->columns(3),
                 Forms\Components\Section::make('Status')
                     ->schema([
-                        Select::make('status')
-                            ->required()
-                            ->native(false)
-                            ->options([
-                                'pending' => 'Pending',
-                                'accepted' => 'Accepted',
-                                'rejected' => 'Rejected',
-                                'completed' => 'Completed',
-                                'canceled' => 'Canceled',
-                            ]),
                         TextInput::make('description')
                             ->maxLength(255),
                         Forms\Components\Toggle::make('is_emergency')
@@ -150,15 +140,6 @@ class RequestResource extends Resource
                         return new HtmlString("<img src='{$record->pet->getFirstMediaUrl('avatar')}' style='width: 35px; height: 35px; border-radius: 50%; display: inline-block; margin-right: 10px'>");
                     }),
                 Tables\Columns\TextColumn::make('request_type.name')
-                    ->searchable(),
-                Tables\Columns\SelectColumn::make('status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'accepted' => 'Accepted',
-                        'rejected' => 'Rejected',
-                        'completed' => 'Completed',
-                        'canceled' => 'Canceled',
-                    ])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable()
@@ -232,7 +213,7 @@ class RequestResource extends Resource
 
     public static function canEdit(Model $record): bool
     {
-        return auth()->user()->can('edit-request');
+        return auth()->user()->can('edit-request') && $record->veterinarian_id === auth()->user()->id;
     }
 
     public static function canDelete(Model $record): bool

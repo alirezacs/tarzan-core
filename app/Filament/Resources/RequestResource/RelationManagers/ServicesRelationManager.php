@@ -10,6 +10,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 
 class ServicesRelationManager extends RelationManager
 {
@@ -43,25 +44,36 @@ class ServicesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\ToggleColumn::make('is_paid')
+                    ->afterStateUpdated(fn ($livewire) => $livewire->ownerRecord->update([
+                        'status' => $livewire->ownerRecord->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : null,
+                    ]))
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->visible(fn () => auth()->user()->can('create-service')),
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
+                    ->after(fn ($livewire) => $livewire->ownerRecord->update([
+                        'status' => $livewire->ownerRecord->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : null,
+                    ]))
                     ->form(function ($action) {
                         return [
                           $action->getRecordSelect()->autofocus(),
                             Forms\Components\Toggle::make('is_paid')
+                                ->after(fn ($livewire) => $livewire->ownerRecord->update([
+                                    'status' => $livewire->ownerRecord->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : null,
+                                ]))
                         ];
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DetachAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DetachAction::make()
+                    ->after(fn ($livewire) => $livewire->ownerRecord->update([
+                        'status' => $livewire->ownerRecord->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : null,
+                    ])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -22,7 +22,7 @@ class RequestTableSeeder extends Seeder
             'pet_id' => Pet::first()->id,
             'request_type_id' => RequestType::first()->id,
             'handling_type_id' => HandlingType::first()->id,
-            'status' => 'pending',
+            'status' => null,
             'description' => null,
             'address_id' => User::first()->addresses()->first()->id,
             'total_paid' => '20000000',

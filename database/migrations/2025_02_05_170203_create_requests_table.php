@@ -35,12 +35,10 @@ return new class extends Migration
             $table->foreign('veterinarian_id')->references('id')->on('users')->nullOnDelete();
 
             $table->enum('status', [
-                'pending',
-                'accepted',
-                'rejected',
+                'pending_pay',
                 'completed',
                 'canceled',
-            ]);
+            ])->nullable();
             $table->text('description')->nullable();
 
             // Address Relation

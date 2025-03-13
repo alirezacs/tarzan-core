@@ -19,15 +19,14 @@ return new class extends Migration
             $table->foreign('basket_id')->references('id')->on('baskets')->cascadeOnDelete();
 
             // Product Relation
-            $table->uuid('product_variant_id');
-            $table->foreign('product_variant_id')->references('id')->on('product_variants')->cascadeOnDelete();
+            $table->uuidMorphs('basketable');
 
             $table->bigInteger('quantity')->default(1);
             $table->string('total_price');
             $table->string('total_discount')->nullable();
             $table->timestamps();
 
-            $table->unique(['basket_id', 'product_variant_id']);
+            $table->unique(['basket_id', 'basketable_type', 'basketable_id']);
         });
     }
 

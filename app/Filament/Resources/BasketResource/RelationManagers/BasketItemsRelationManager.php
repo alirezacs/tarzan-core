@@ -2,15 +2,13 @@
 
 namespace App\Filament\Resources\BasketResource\RelationManagers;
 
+use App\Models\BasketItem;
 use App\Models\ProductVariant;
 use App\Models\Request;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -18,8 +16,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
 
 class BasketItemsRelationManager extends RelationManager
@@ -30,23 +26,22 @@ class BasketItemsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Information')
+                Forms\Components\Section::make('Select Item')
                     ->schema([
-                        Select::make('product_variant_id')
-                            ->required()
-                            ->relationship('productVariant', 'title', fn (Builder $query) => $query->where('is_active', true)->where('stock', '>', 0))
-                            ->preload()
-                            ->searchable()
+                        Forms\Components\MorphToSelect::make('basketable')
+                            ->types([
+                                'ProductVariant' => Forms\Components\MorphToSelect\Type::make(ProductVariant::class)
+                                    ->titleAttribute('title'),
+                                'Request' => Forms\Components\MorphToSelect\Type::make(Request::class)
+                                    ->titleAttribute('id')
+                            ])
                             ->native(false)
-                            ->live(),
-                        Forms\Components\TextInput::make('quantity')
-                            ->integer()
-                            ->required()
-                            ->minLength(1)
-                            ->maxLength(fn ($get) => ProductVariant::query()->find($get('product_variant_id'))->stock ?? 1)
-                            ->live()
-                            ->disabled(fn ($get) => !$get('product_variant_id')),
-                    ])
+                            ->searchable()
+                            ->preload()
+                            ->columnSpanFull(),
+                        TextInput::make('quantity')
+                            ->hidden(fn (callable $get) => $get('basketable_type') !== 'App\Models\ProductVariant')
+                    ]),
             ]);
     }
 
@@ -55,44 +50,58 @@ class BasketItemsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('title')
             ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('productVariant.product.thumbnail')
-                    ->collection('thumbnail'),
-                Tables\Columns\TextColumn::make('productVariant.title'),
+                Tables\Columns\TextColumn::make('basketable_type')
+                    ->label('Basket Item')
+                    ->formatStateUsing(fn ($record) => $record->basketable_type === ProductVariant::class ? "(Product) {$record->basketable->title}" : "({$record->basketable->request_type->name} Request) {$record->id}"),
                 TextColumn::make('total_price'),
-                TextColumn::make('total_discount'),
                 TextColumn::make('quantity'),
+                TextColumn::make('total_discount'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->mutateFormDataUsing(function ($data) {
-                        $productVariant = ProductVariant::query()->find($data['product_variant_id']);
-                        $data['total_discount'] = 0;
-                        if($productVariant->discount) {
-                            if($productVariant->discount->discount_type == 'amount') {
-                                $data['total_discount'] = $productVariant - $productVariant->discount->discount_value;
-                            }else{
-                                $data['total_discount'] = $productVariant->price - (($productVariant->price * $productVariant->discount->discount_value) / 100);
-                            }
-                        }
-                        $data['total_price'] = $data['quantity'] * ($productVariant->price - $data['total_discount']);
-
-                        return $data;
-                    })
-                    ->before(function ($data, $livewire){
-                        $user = User::query()->find($livewire->ownerRecord['user_id']);
-                        if($user->basket->basketItems->where('product_variant_id', $data['product_variant_id'])->count()) {
-                            Notification::make()
-                                ->title('Exists Product')
-                                ->body('Selected Product Already Exists In Your Basket')
+                    ->mutateFormDataUsing(function ($livewire, array $data) {
+                        if(BasketItem::query()->where([
+                            'basketable_id' => $data['basketable_id'],
+                            'basket_id' => $livewire->ownerRecord->id,
+                        ])->exists()) {
+                            Notification::make('Error')
+                                ->title('Item Already Exists')
                                 ->danger()
                                 ->send();
-                            throw ValidationException::withMessages(['Selected Product Already Exists In Your Basket']);
-
+                            throw ValidationException::withMessages([
+                                'email' => 'This email is already taken.',
+                            ]);
                         }
-                    })
+                        if($data['basketable_type'] === 'App\Models\ProductVariant') {
+                            $product = ProductVariant::query()->findOrFail($data['basketable_id']);
+                            if($discount = $product->discount()->first()){
+                                if($discount->discount_type == 'percent'){
+                                    $data['total_discount'] = $data['quantity'] * ($product->price * $discount->discount_value) / 100;
+                                    $data['total_price'] = $data['quantity'] * ($product->price - (($product->price * $discount->discount_value) / 100));
+                                }else{
+                                    $data['total_discount'] = $data['quantity'] * ($product->price - $discount->discount_value);
+                                    $data['total_price'] = $data['quantity'] * ($product->price - $discount->discount_value);
+                                }
+                            }else{
+                                $data['total_price'] = $product->price;
+                            }
+                        }else{
+                            $data['quantity'] = 1;
+                            $request = Request::query()->findOrFail($data['basketable_id']);
+                            $data['total_price'] = $request->request_type->min_price;
+                        }
+
+                        return $data;
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

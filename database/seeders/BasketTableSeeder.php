@@ -23,7 +23,8 @@ class BasketTableSeeder extends Seeder
 
         $basketItem = BasketItem::create([
             'basket_id' => $basket->id,
-            'product_variant_id' => ProductVariant::first()->id,
+            'basketable_id' => ProductVariant::first()->id,
+            'basketable_type' => get_class(ProductVariant::first()),
             'quantity' => 1,
             'total_price' => '150000'
         ]);

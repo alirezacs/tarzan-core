@@ -13,22 +13,19 @@ class BasketItem extends Model
     use HasUlids;
 
     protected $fillable = [
+        'basketable_type',
+        'basketable_id',
         'basket_id',
-        'product_variant_id',
         'quantity',
         'total_price',
         'total_discount',
     ];
 
-    protected $with = [
-        'productVariant',
-    ];
-
     /**
-     * @return BelongsTo
+     * @return MorphTo
      */
-    public function productVariant(): BelongsTo
+    public function basketable(): MorphTo
     {
-        return $this->belongsTo(ProductVariant::class);
+        return $this->morphTo();
     }
 }

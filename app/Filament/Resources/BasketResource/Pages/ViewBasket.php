@@ -4,17 +4,16 @@ namespace App\Filament\Resources\BasketResource\Pages;
 
 use App\Filament\Resources\BasketResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditBasket extends EditRecord
+class ViewBasket extends ViewRecord
 {
     protected static string $resource = BasketResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make(),
         ];
     }
 }

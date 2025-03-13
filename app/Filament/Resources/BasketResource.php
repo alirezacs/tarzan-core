@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BasketResource\Pages;
 use App\Filament\Resources\BasketResource\RelationManagers;
-use App\Filament\Resources\BasketResource\RelationManagers\BasketItemsRelationManager;
 use App\Models\Basket;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -21,17 +20,21 @@ class BasketResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Payed';
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'id')
-                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name . ' ' . $record->last_name)
-                    ->required()
-                    ->disabled(),
+                Forms\Components\Section::make('User')
+                    ->schema([
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('user', 'id')
+                            ->getOptionLabelFromRecordUsing(fn ($record): string => $record->first_name . ' ' . $record->last_name)
+                            ->required()
+                            ->native(false)
+                            ->preload()
+                            ->searchable()
+                            ->disabledOn('edit'),
+                    ])
             ]);
     }
 
@@ -39,21 +42,25 @@ class BasketResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.first_name')
-                    ->formatStateUsing(fn ($record) => $record->user->first_name . ' ' . $record->user->last_name)
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -66,7 +73,7 @@ class BasketResource extends Resource
     public static function getRelations(): array
     {
         return [
-            BasketItemsRelationManager::class
+            RelationManagers\BasketItemsRelationManager::class
         ];
     }
 

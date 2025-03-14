@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\RequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
@@ -49,6 +50,9 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('basket-item/decrease-quantity', [BasketItemController::class, 'decreaseQuantity']);
     /* Basket Item Routes */
 
+    /* Request Routes */
+    Route::apiResource('request', RequestController::class);
+    /* Request Routes */
 });
 
 /* Breed Routes */

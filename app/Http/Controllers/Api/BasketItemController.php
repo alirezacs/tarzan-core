@@ -83,13 +83,31 @@ class BasketItemController extends Controller
         $basketItem = BasketItem::query()->find($request->basket_item_id);
 
         /* Check For Exists Quantity */
-        if($basketItem->quantity + 1 > $basketItem->productVariant->stock){
+        if($basketItem->basketable_type === 'App\Models\ProductVariant' && $basketItem->quantity + 1 > $basketItem->basketable->stock){
             return apiResponse(message: 'Quantity Exceeded', status: 422);
         }
         /* Check For Exists Quantity */
 
+        /* Calc Price */
+        $product = $basketItem->basketable;
+        if($discount = $product->discount()->first()){
+            if($discount->discount_type == 'percent'){
+                $totalDiscount = ($basketItem->quantity + 1) * ($product->price * $discount->discount_value) / 100;
+                $totalPrice = ($basketItem->quantity + 1) * ($product->price - (($product->price * $discount->discount_value) / 100));
+            }else{
+                $totalDiscount = ($basketItem->quantity + 1) * ($product->price - $discount->discount_value);
+                $totalPrice = ($basketItem->quantity + 1) * ($product->price - $discount->discount_value);
+            }
+        }else{
+            $totalPrice = ($basketItem->quantity + 1) * $product->price;
+            $totalDiscount = null;
+        }
+        /* Calc Price */
+
         $basketItem->update([
             'quantity' => $basketItem->quantity += 1,
+            'total_price' => $totalPrice,
+            'total_discount' => $totalDiscount,
         ]);
 
         return apiResponse(message: 'Quantity Added to Basket');

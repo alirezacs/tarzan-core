@@ -122,14 +122,39 @@ class BasketItemController extends Controller
         $basketItem = BasketItem::query()->find($request->basket_item_id);
 
         /* Check For Exists Quantity */
-        if($basketItem->quantity - 1 === 0){
+        if($basketItem->basketable_type === 'App\Models\ProductVariant'){
+            if($basketItem->quantity - 1 === 0){
+                $basketItem->delete();
+                return apiResponse(message: 'Basket Deleted');
+            }
+
+            /* Calc Price */
+            $product = $basketItem->basketable;
+            if($discount = $product->discount()->first()){
+                if($discount->discount_type == 'percent'){
+                    $totalDiscount = ($basketItem->quantity - 1) * ($product->price * $discount->discount_value) / 100;
+                    $totalPrice = ($basketItem->quantity - 1) * ($product->price - (($product->price * $discount->discount_value) / 100));
+                }else{
+                    $totalDiscount = ($basketItem->quantity - 1) * ($product->price - $discount->discount_value);
+                    $totalPrice = ($basketItem->quantity - 1) * ($product->price - $discount->discount_value);
+                }
+            }else{
+                $totalPrice = ($basketItem->quantity - 1) * $product->price;
+                $totalDiscount = null;
+            }
+            /* Calc Price */
+        }else{
             $basketItem->delete();
             return apiResponse(message: 'Basket Deleted');
         }
         /* Check For Exists Quantity */
 
+
+
         $basketItem->update([
             'quantity' => $basketItem->quantity -= 1,
+            'total_price' => $totalPrice,
+            'total_discount' => $totalDiscount,
         ]);
 
         return apiResponse(message: 'Basket Quantity Decreased');

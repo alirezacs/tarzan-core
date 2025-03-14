@@ -7,7 +7,10 @@ use App\Http\Requests\Api\BasketItemRequest;
 use App\Models\BasketItem;
 use App\Models\ProductVariant;
 use App\Models\User;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class BasketItemController extends Controller
@@ -74,6 +77,10 @@ class BasketItemController extends Controller
         return apiResponse(message: 'Item Added to Basket');
     }
 
+    /**
+     * @param Request $request
+     * @return Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+     */
     public function addQuantity(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         $request->validate([
@@ -113,7 +120,11 @@ class BasketItemController extends Controller
         return apiResponse(message: 'Quantity Added to Basket');
     }
 
-    public function decreaseQuantity(Request $request)
+    /**
+     * @param Request $request
+     * @return Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+     */
+    public function decreaseQuantity(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         $request->validate([
             'basket_item_id' => ['required', 'exists:basket_items,id'],

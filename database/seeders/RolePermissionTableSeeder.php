@@ -108,6 +108,10 @@ class RolePermissionTableSeeder extends Seeder
             'edit-size',
             'delete-size',
 
+            'read-transaction',
+            'create-transaction',
+            'delete-transaction',
+
             'read-user',
             'create-user',
             'edit-user',

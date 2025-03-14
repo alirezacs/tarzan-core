@@ -18,7 +18,7 @@ class ProductVariantTableSeeder extends Seeder
     {
         ProductVariant::create([
             'title' => 'First Variant',
-            'price' => 10000,
+            'price' => 1000,
             'stock' => 10,
             'is_active' => true,
             'product_id' => Product::first()->id,

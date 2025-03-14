@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            // Product Variant Relation
-            $table->uuid('product_variant_id')->nullable();
-            $table->foreign('product_variant_id')->references('id')->on('product_variants')->nullOnDelete();
+            // Item Relation
+            $table->uuidMorphs('orderable');
 
             // Order Relation
             $table->uuid('order_id');

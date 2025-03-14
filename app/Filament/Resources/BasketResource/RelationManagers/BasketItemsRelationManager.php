@@ -104,7 +104,29 @@ class BasketItemsRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->mutateFormDataUsing(function ($livewire, array $data) {
+                        if($data['basketable_type'] === 'App\Models\ProductVariant') {
+                            $product = ProductVariant::query()->findOrFail($data['basketable_id']);
+                            if($discount = $product->discount()->first()){
+                                if($discount->discount_type == 'percent'){
+                                    $data['total_discount'] = $data['quantity'] * ($product->price * $discount->discount_value) / 100;
+                                    $data['total_price'] = $data['quantity'] * ($product->price - (($product->price * $discount->discount_value) / 100));
+                                }else{
+                                    $data['total_discount'] = $data['quantity'] * ($product->price - $discount->discount_value);
+                                    $data['total_price'] = $data['quantity'] * ($product->price - $discount->discount_value);
+                                }
+                            }else{
+                                $data['total_price'] = $product->price;
+                            }
+                        }else{
+                            $data['quantity'] = 1;
+                            $request = Request::query()->findOrFail($data['basketable_id']);
+                            $data['total_price'] = $request->request_type->min_price;
+                        }
+
+                        return $data;
+                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

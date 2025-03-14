@@ -26,7 +26,7 @@ class BasketTableSeeder extends Seeder
             'basketable_id' => ProductVariant::first()->id,
             'basketable_type' => get_class(ProductVariant::first()),
             'quantity' => 1,
-            'total_price' => '150000'
+            'total_price' => ProductVariant::first()->price
         ]);
     }
 }

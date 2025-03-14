@@ -23,7 +23,8 @@ class BasketService
                 'total_price' => $basketItem->total_price,
                 'total_discount' => $basketItem->total_discount,
                 'json' => json_encode($basketItem->toArray()),
-                'product_variant_id' => $basketItem->product_variant_id,
+                'orderable_type' => get_class($basketItem->basketable),
+                'orderable_id' => $basketItem->basketable->id,
             ];
             /* Make Order Item */
         }

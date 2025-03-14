@@ -15,6 +15,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -117,8 +118,9 @@ class OrderResource extends Resource
                     ->schema([
                         RepeatableEntry::make('orderItems')
                             ->schema([
-                                TextEntry::make('productVariant.title')
-                                    ->url(fn ($record) => route('filament.admin.resources.product-variants.edit', ['record' => $record->productVariant->id])),
+                                TextEntry::make('Item Title')
+                                    ->getStateUsing(fn ($record) => $record->orderable_type === 'App\Models\ProductVariant' ? "(Product) {$record->orderable->title}" : "({$record->orderable->request_type->name} Visit) {$record->orderable->id}"),
+//                                    ->url(fn ($record) => route('filament.admin.resources.product-variants.edit', ['record' => $record->productVariant->id])),
                                 TextEntry::make('total_price'),
                                 TextEntry::make('quantity'),
                                 TextEntry::make('total_discount'),

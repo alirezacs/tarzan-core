@@ -22,37 +22,56 @@ class BasketItemController extends Controller
         /* Check For Exists Basket */
 
         /* Check For Exists In Basket */
-        if($basket->basketItems()->where('product_variant_id', $request->product_variant_id)->exists()){
-            return apiResponse(message: 'Product Already In Basket', status: 422);
+        if($request->input('type') === 'product_variant') {
+            if($basket->basketItems()->where([
+                'basketable_type' => 'App\Models\ProductVariant',
+                'basketable_id' => $request->product_variant_id
+            ])->exists()){
+                return apiResponse(message: 'Product Variant is already added to your basket', status: 422);
+            };
+        }else{
+            if($basket->basketItems()->where([
+                'basketable_type' => 'App\Models\Request',
+                'basketable_id' => $request->request_id
+            ])->exists()){
+                return apiResponse(message: 'Request is already added to your basket', status: 422);
+            }
         }
         /* Check For Exists In Basket */
 
-        /* Check For Discount On Product */
-        $product = ProductVariant::query()->find($request->product_variant_id);
-        if($discount = $product->discount()->first()){
-            if($discount->discount_type == 'percent'){
-                $totalDiscount = $request->quantity * ($product->price * $discount->discount_value) / 100;
-                $totalPrice = $request->quantity * ($product->price - (($product->price * $discount->discount_value) / 100));
+        /* Check For Discount On Item */
+        if($request->type === 'product_variant') {
+            $product = ProductVariant::query()->find($request->product_variant_id);
+            if($discount = $product->discount()->first()){
+                if($discount->discount_type == 'percent'){
+                    $totalDiscount = $request->quantity * ($product->price * $discount->discount_value) / 100;
+                    $totalPrice = $request->quantity * ($product->price - (($product->price * $discount->discount_value) / 100));
+                }else{
+                    $totalDiscount = $request->quantity * ($product->price - $discount->discount_value);
+                    $totalPrice = $request->quantity * ($product->price - $discount->discount_value);
+                }
             }else{
-                $totalDiscount = $request->quantity * ($product->price - $discount->discount_value);
-                $totalPrice = $request->quantity * ($product->price - $discount->discount_value);
+                $totalPrice = $product->price;
+                $totalDiscount = 0;
             }
         }else{
-            $totalPrice = $product->price;
-            $totalDiscount = 0;
+            $requestModel = \App\Models\Request::query()->find($request->request_id);
+            $totalPrice = $requestModel->request_type->min_price;
+            $totalDiscount = null;
         }
-        /* Check For Discount On Product */
+        /* Check For Discount On Item */
 
-        /* Add Product To Basket */
+        /* Add Item To Basket */
         $basket->basketItems()->create([
-            'product_variant_id' => $request->product_variant_id,
-            'quantity' => $request->quantity,
+            'basketable_type' => $request->type === 'product_variant' ? 'App\Models\ProductVariant' : 'App\Models\Request',
+            'basketable_id' => $request->type === 'product_variant' ? $request->product_variant_id : $request->request_id,
+            'quantity' => $request->type === 'product_variant' ? $request->quantity : 1,
             'total_price' => $totalPrice,
-            'total_price_discount' => $totalDiscount,
+            'total_discount' => $totalDiscount,
         ]);
-        /* Add Product To Basket */
+        /* Add Item To Basket */
 
-        return apiResponse(message: 'Product Added to Basket');
+        return apiResponse(message: 'Item Added to Basket');
     }
 
     public function addQuantity(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory

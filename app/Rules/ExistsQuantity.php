@@ -22,7 +22,7 @@ class ExistsQuantity implements ValidationRule
     {
         $product = ProductVariant::query()->find($this->productVariant);
 
-        if($product->stock < $value){
+        if($product && $product->stock < $value){
             $fail('تعداد مورد نظر در انبار موجود نمیباشد');
         }
     }

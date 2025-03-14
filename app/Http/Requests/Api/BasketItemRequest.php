@@ -22,9 +22,15 @@ class BasketItemRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'product_variant_id' => ['required', 'exists:product_variants,id'],
-            'quantity' => ['required', 'integer', 'min:1', new ExistsQuantity($this->request->get('product_variant_id'))],
+        $rules = [
+            'type' => ['required', 'in:product_variant,request']
         ];
+        if($this->input('type') == 'product_variant') {
+            $rules['product_variant_id'] = ['required', 'exists:product_variants,id'];
+            $rules['quantity'] = ['required', 'integer', 'min:1', new ExistsQuantity($this->input('product_variant_id'))];
+        }else{
+            $rules['request_id'] = ['required', 'exists:requests,id'];
+        }
+        return $rules;
     }
 }

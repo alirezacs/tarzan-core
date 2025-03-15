@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\RegisterRequest;
 use App\Events\RequestAccepted;
 use App\Models\Request;
 
@@ -12,7 +13,7 @@ class RequestObserver
      */
     public function created(Request $request): void
     {
-        //
+        RegisterRequest::dispatch();
     }
 
     /**

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('authority');
             $table->string('fee');
             $table->string('fee_type');
+            $table->string('link');
 
             // User Relation
             $table->uuid('user_id');

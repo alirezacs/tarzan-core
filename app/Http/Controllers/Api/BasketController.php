@@ -59,6 +59,7 @@ class BasketController extends Controller
             'authority' => $zarinpal->authority(),
             'fee' => $zarinpal->fee(),
             'fee_type' => $zarinpal->feeType(),
+            'link' => $zarinpal->url()
         ]);
         /* Make Transaction */
 

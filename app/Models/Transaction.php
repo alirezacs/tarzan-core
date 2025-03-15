@@ -17,6 +17,7 @@ class Transaction extends Model
         'fee_type',
         'status',
         'user_id',
+        'link'
     ];
 
     /**

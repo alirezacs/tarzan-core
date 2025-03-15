@@ -11,11 +11,13 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
+use function Symfony\Component\String\s;
 
 class TransactionResource extends Resource
 {
@@ -31,23 +33,15 @@ class TransactionResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('amount')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('authority')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('fee')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('fee_type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('code')
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->minValue(1000)
+                    ->integer(),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'id')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name . ' ' . $record->last_name)
+                    ->native(false)
+                    ->searchable()
+                    ->preload()
                     ->required(),
             ]);
     }
@@ -62,16 +56,25 @@ class TransactionResource extends Resource
                     ->prefix(function ($record){
                         return new HtmlString("<img src='{$record->user->getFirstMediaUrl('avatar')}' style='width: 35px; height: 35px; border-radius: 50%; display: inline-block; margin-right: 10px'>");
                     }),
+                TextColumn::make('link')
+                    ->url(fn ($record) => $record->link),
                 Tables\Columns\TextColumn::make('amount')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('authority')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('fee')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('fee_type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('code')
-                    ->searchable(),
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(function ($record) {
+                        switch ($record->status) {
+                            case 'payed':
+                                return 'success';
+                                break;
+                            case 'pending':
+                                return 'warning';
+                                break;
+                            case 'cancelled':
+                                return 'danger';
+                                break;
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

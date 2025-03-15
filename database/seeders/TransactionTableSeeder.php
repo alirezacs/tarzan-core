@@ -21,6 +21,7 @@ class TransactionTableSeeder extends Seeder
             'fee_type' => 'test',
             'status' => 'payed',
             'user_id' => User::first()->id,
+            'link' => 'test'
         ]);
     }
 }

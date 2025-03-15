@@ -89,6 +89,10 @@ class BasketItemController extends Controller
 
         $basketItem = BasketItem::query()->find($request->basket_item_id);
 
+        if($basketItem->basketable_type === 'App\Models\Request') {
+            return apiResponse(message: 'Can not Add Quantity Of This Item', status: 422);
+        }
+
         /* Check For Exists Quantity */
         if($basketItem->basketable_type === 'App\Models\ProductVariant' && $basketItem->quantity + 1 > $basketItem->basketable->stock){
             return apiResponse(message: 'Quantity Exceeded', status: 422);

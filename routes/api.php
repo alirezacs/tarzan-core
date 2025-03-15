@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
     /* Basket Item Routes */
 
     /* Request Routes */
-    Route::apiResource('request', RequestController::class);
+    Route::apiResource('request', RequestController::class)->only(['index', 'store']);
     /* Request Routes */
 });
 

@@ -42,7 +42,7 @@ class User extends Authenticatable implements HasName, HasMedia, HasAvatar, Fila
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole(['developer', 'manager']);
+        return $this->hasRole(['developer', 'manager', 'veterinarian', 'Guest']);
     }
 
     /**

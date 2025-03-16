@@ -155,6 +155,17 @@ class RequestResource extends Resource
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(function ($state){
+                        if($state === 'pending_pay'){
+                            return 'warning';
+                        }else if($state === 'completed'){
+                            return 'success';
+                        }else if($state === 'cancelled'){
+                            return 'danger';
+                        }
+                    })
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
@@ -166,13 +177,44 @@ class RequestResource extends Resource
                         'pending_pay' => 'Pending Pay',
                         'completed' => 'Completed',
                         'canceled' => 'Cancelled',
+                        'in_progress' => 'In Progress',
                     ])
-                    ->query(fn ($query, $data) => $query->where('status', $data['value']))
+                    ->query(function ($query, $data) {
+                        if (!$data['value']) {
+                            return $query;
+                        }
+
+                        if ($data['value'] === 'in_progress') {
+                            return $query->whereNull('status');
+                        }
+
+                        return $query->where('status', $data['value']);
+                    })
                     ->native(false),
                 Tables\Filters\Filter::make('my requests')
                     ->query(fn ($query) => $query->where('veterinarian_id', auth()->user()->id))
             ])
             ->actions([
+                Tables\Actions\Action::make('Cancel')
+                    ->label('Cancel Request')
+                    ->icon('heroicon-o-x-circle')
+                    ->requiresConfirmation()
+                    ->visible(fn ($record) => !is_null($record->veterinarian_id) && auth()->user()->id === $record->veterinarian_id && !in_array($record->status, ['completed', 'canceled']))
+                    ->action(function ($record){
+                        $record->update([
+                            'status' => 'canceled'
+                        ]);
+                    }),
+                Tables\Actions\Action::make('Complete')
+                    ->label('Complete Request')
+                    ->icon('heroicon-o-check-badge')
+                    ->requiresConfirmation()
+                    ->visible(fn ($record) => !is_null($record->veterinarian_id) && auth()->user()->id === $record->veterinarian_id && !in_array($record->status, ['completed', 'canceled']))
+                    ->action(function ($record){
+                        $record->update([
+                            'status' => 'completed'
+                        ]);
+                    }),
                 Tables\Actions\Action::make('Accept')
                     ->label('Accept Request')
                     ->icon('heroicon-o-check-badge')

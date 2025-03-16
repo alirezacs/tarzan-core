@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\CompleteRequest;
 use App\Events\RegisterRequest;
 use App\Events\RequestAccepted;
 use App\Models\Request;
@@ -24,7 +25,9 @@ class RequestObserver
         if($request->veterinarian_id !== null){
             RequestAccepted::dispatch();
         }
-        // Completed Event
+        if($request->status === 'completed'){
+            CompleteRequest::dispatch();
+        }
         // Canceled Event
     }
 

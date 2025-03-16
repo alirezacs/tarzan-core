@@ -95,7 +95,7 @@ class BasketResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-basket', 'create-basket', 'edit-basket', 'delete-basket']);
+        return auth()->user()->can(['read-basket']);
     }
 
     public static function canCreate(): bool

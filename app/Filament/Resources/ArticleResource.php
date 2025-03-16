@@ -137,7 +137,7 @@ class ArticleResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-article', 'create-article', 'edit-article', 'delete-article']);
+        return auth()->user()->can(['read-article']);
     }
 
     public static function canCreate(): bool

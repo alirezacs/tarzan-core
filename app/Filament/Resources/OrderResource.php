@@ -130,6 +130,16 @@ class OrderResource extends Resource
             ]);
     }
 
+    public static function canView(Model $record): bool
+    {
+        return auth()->user()->can('read-order');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->can('read-order');
+    }
+
     public static function canCreate(): bool
     {
         return false;

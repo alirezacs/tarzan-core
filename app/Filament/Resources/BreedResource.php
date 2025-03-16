@@ -93,7 +93,7 @@ class BreedResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-breed', 'create-breed', 'edit-breed', 'delete-breed']);
+        return auth()->user()->can(['read-breed']);
     }
 
     public static function canCreate(): bool

@@ -99,7 +99,7 @@ class RoleResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-role', 'create-role', 'edit-role', 'delete-role']);
+        return auth()->user()->can(['read-role']);
     }
 
     public static function canCreate(): bool

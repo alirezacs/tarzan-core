@@ -258,7 +258,7 @@ class RequestResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-request', 'create-request', 'edit-request', 'delete-request']);
+        return auth()->user()->can(['read-request']);
     }
 
     public static function canCreate(): bool

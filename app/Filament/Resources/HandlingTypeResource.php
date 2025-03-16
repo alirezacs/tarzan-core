@@ -87,7 +87,7 @@ class HandlingTypeResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-handling_type', 'create-handling_type', 'edit-handling_type', 'delete-handling_type']);
+        return auth()->user()->can(['read-handling_type']);
     }
 
     public static function canCreate(): bool

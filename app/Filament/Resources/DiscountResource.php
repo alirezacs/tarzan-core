@@ -111,7 +111,7 @@ class DiscountResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-discount', 'create-discount', 'edit-discount', 'delete-discount']);
+        return auth()->user()->can(['read-discount']);
     }
 
     public static function canCreate(): bool

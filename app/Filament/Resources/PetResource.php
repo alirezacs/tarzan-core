@@ -148,7 +148,7 @@ class PetResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-pet', 'create-pet', 'edit-pet', 'delete-pet']);
+        return auth()->user()->can(['read-pet']);
     }
 
     public static function canCreate(): bool

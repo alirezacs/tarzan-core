@@ -94,7 +94,7 @@ class SizeResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-size', 'create-size', 'edit-size', 'delete-size']);
+        return auth()->user()->can(['read-size']);
     }
 
     public static function canCreate(): bool

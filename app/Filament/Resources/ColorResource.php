@@ -99,7 +99,7 @@ class ColorResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-color', 'create-color', 'edit-color', 'delete-color']);
+        return auth()->user()->can(['read-color']);
     }
 
     public static function canCreate(): bool

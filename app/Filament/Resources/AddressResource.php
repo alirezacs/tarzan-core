@@ -126,7 +126,7 @@ class AddressResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-address', 'create-address', 'edit-address', 'delete-address']);
+        return auth()->user()->can(['read-address']);
     }
 
     public static function canCreate(): bool

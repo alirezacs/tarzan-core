@@ -141,7 +141,7 @@ class ProductResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-product', 'create-product', 'edit-product', 'delete-product']);
+        return auth()->user()->can(['read-product']);
     }
 
     public static function canCreate(): bool

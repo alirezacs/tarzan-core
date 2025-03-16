@@ -85,7 +85,7 @@ class PermissionResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-permission', 'create-permission', 'edit-permission', 'delete-permission']);
+        return auth()->user()->can(['read-permission']);
     }
 
     public static function canCreate(): bool

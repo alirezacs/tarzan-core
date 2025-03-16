@@ -112,7 +112,7 @@ class RequestTypeResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-request_type', 'create-request_type', 'edit-request_type', 'delete-request_type']);
+        return auth()->user()->can(['read-request_type']);
     }
 
     public static function canCreate(): bool

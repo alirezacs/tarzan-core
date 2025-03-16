@@ -126,6 +126,8 @@ class RolePermissionTableSeeder extends Seeder
             'create-article',
             'edit-article',
             'delete-article',
+
+            'read-order'
         ];
 
         foreach ($permissions as $permission) {

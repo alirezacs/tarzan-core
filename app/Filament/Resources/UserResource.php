@@ -139,7 +139,7 @@ class UserResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-user', 'create-user', 'edit-user', 'delete-user']);
+        return auth()->user()->can(['read-user']);
     }
 
     public static function canCreate(): bool

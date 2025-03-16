@@ -103,7 +103,7 @@ class ProductCategoryResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-product_category', 'create-product_category', 'edit-product_category', 'delete-product_category']);
+        return auth()->user()->can(['read-product_category']);
     }
 
     public static function canCreate(): bool

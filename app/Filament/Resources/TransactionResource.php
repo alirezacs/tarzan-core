@@ -138,7 +138,7 @@ class TransactionResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-transaction', 'create-transaction', 'delete-transaction']);
+        return auth()->user()->can(['read-transaction']);
     }
 
     public static function canCreate(): bool

@@ -94,7 +94,7 @@ class ArticleCategoryResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-article_category', 'create-article_category', 'edit-article_category', 'delete-article_category']);
+        return auth()->user()->can(['read-article_category']);
     }
 
     public static function canCreate(): bool

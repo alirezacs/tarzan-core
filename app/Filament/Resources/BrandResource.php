@@ -102,7 +102,7 @@ class BrandResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-brand', 'create-brand', 'edit-brand', 'delete-brand']);
+        return auth()->user()->can(['read-brand']);
     }
 
     public static function canCreate(): bool

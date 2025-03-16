@@ -100,7 +100,7 @@ class PetCategoryResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-pet_category', 'create-pet_category', 'edit-pet_category', 'delete-pet_category']);
+        return auth()->user()->can(['read-pet_category']);
     }
 
     public static function canCreate(): bool

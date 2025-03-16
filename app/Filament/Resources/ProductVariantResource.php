@@ -143,7 +143,7 @@ class ProductVariantResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->can(['read-product_variant', 'create-product_variant', 'edit-product_variant', 'delete-product_variant']);
+        return auth()->user()->can(['read-product_variant']);
     }
 
     public static function canCreate(): bool

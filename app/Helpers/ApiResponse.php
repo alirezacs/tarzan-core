@@ -11,12 +11,15 @@ use Illuminate\Http\Response;
  * @param true $success
  * @return Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
  */
-function apiResponse(array $data = [], string $message = '', int $status = 200, bool $success = true): Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+function apiResponse(array $data = [], string $message = '', int $status = 200, bool $success = true, $cookie = null): Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
 {
     $response = [];
 
     !empty($data) && $response['data'] = $data;
     !empty($message) && $response['message'] = $message;
 
-    return response($response, $status);
+    $response = response($response, $status);
+    !empty($cookie) && $response->withCookie($cookie);
+
+    return $response;
 }

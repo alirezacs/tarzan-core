@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Api\Auth;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Response;
 
 class LoginRequest extends FormRequest
 {
@@ -32,5 +35,10 @@ class LoginRequest extends FormRequest
             $rules['password'] = ['required', 'string', 'max:255'];
         }
         return $rules;
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(Response::make($validator->errors(), 422));
     }
 }

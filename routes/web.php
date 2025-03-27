@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\BasketItem;
-use App\Models\RequestType;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\client\HomeController;
 
-Route::view('/', 'welcome');
+/* Home Route */
+Route::get('/', [HomeController::class, 'index'])->name('home');
+/* Home Route */

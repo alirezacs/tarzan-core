@@ -3,19 +3,22 @@
         <div class="footer-container">
             <div class="flex justify-end align-middle mb-10 pl-5">
                 <div class="flex text-center max-lg:flex-col gap-4">
-                    <div class="border-l-2 border-[--primary-color] px-3 max-lg:border-0">
+                    <div
+                        class="border-l-2 border-[--primary-color] px-3 max-lg:border-0"
+                    >
                         <h4 class="footer-heading">
                             برای پیشنهادات ثبت نام
-                            <br /> کنید.
+                            <br />
+                            کنید.
                         </h4>
                         <p class="footer-sub-heading">
                             برای دریافت پیشنهادات و تخفیفات
-                            <br /> منحصر به فرد در خبرنامه ما ثبت نام کنید!
+                            <br />
+                            منحصر به فرد در خبرنامه ما ثبت نام کنید!
                         </p>
                     </div>
                     <div class="flex items-center">
-
-                        <form action="/" scroll={false} class="form-footer">
+                        <form action="/" scroll="{false}" class="form-footer">
                             <input
                                 name="query"
                                 defaultValue=""
@@ -29,12 +32,13 @@
                                 </button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
 
-            <div class="mt-5 grid grid-flow-row justify-between align-middle lg:grid-cols-4 max-lg:grid-cols-2">
+            <div
+                class="mt-5 grid grid-flow-row justify-between align-middle lg:grid-cols-4 max-lg:grid-cols-2"
+            >
                 <div class="footer-list">
                     <ul class="flex flex-col gap-2">
                         <li>
@@ -43,18 +47,24 @@
                         <li>
                             <p class="footer-p">
                                 اگر سؤالی دارید،با ما در <br />
-                                <span class="text-[--primary-color]"> support@example </span>
+                                <span class="text-[--primary-color]">
+                      support@example
+                    </span>
                                 تماس بگیرید.
                             </p>
                         </li>
                         <li class="flex gap-2 items-center py-4">
-                            <i class="fa-solid fa-location-dot text-[--primary-color] text-xl"></i>
+                            <i
+                                class="fa-solid fa-location-dot text-[--primary-color] text-xl"
+                            ></i>
                             <p class="text-white font-bold">
                                 ایران، تهران ، منطقه <br />۶ میدان انقلاب، خیابان فخرراز
                             </p>
                         </li>
                         <li class="flex gap-2 items-center py-4">
-                            <i class="fa-solid fa-mobile-screen-button text-[--primary-color] text-xl"></i>
+                            <i
+                                class="fa-solid fa-mobile-screen-button text-[--primary-color] text-xl"
+                            ></i>
                             <p class="text-white font-bold">۰۲۱-۲۱-۲۲۲(۹۸+)</p>
                         </li>
                         <li class="flex gap-2">
@@ -85,7 +95,7 @@
                         </li>
                         <li class="footer-link">
                             <a href="/">برنامه های وابسته</a>
-                            "/"
+                        </li>
                     </ul>
                 </div>
                 <div class="footer-list">
@@ -135,11 +145,14 @@
                     </ul>
                 </div>
             </div>
-
         </div>
         <div class="flex justify-between py-5">
             <p class="copy-right">© ۲۰۲۱ فروشگاه حیوانات خانگی پتیو</p>
-            <img src="{{ asset('assets/payment.png') }}" class="w-[300px] max-lg:w-[150]" alt="payment" />
+            <img
+                src="payment.png"
+                class="w-[300px] max-lg:w-[150]"
+                alt="payment"
+            />
         </div>
     </div>
 </footer>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fa-IR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="./style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="fontawesome/css/all.css" />
+    <script src="fontawesome/js/all.js"></script>
+  </head>
+  <body style="direction: rtl">
+    <header class="absolute right-0 left-0 w-full z-10">
+      <div
+        class="container mx-auto flex justify-between items-center py-5 px-5"
+      >
+        <div class="hamburger-menu text-black">
+          <button onClick="{toggleSidebar}">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-10">
+          <div class="logo">
+            <img src="./logo.png" alt="logo" />
+          </div>
+          <nav class="max-lg:hidden">
+            <div class="navbar text-black">
+              <ul class="flex items-center gap-6">
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    خانه
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#">پروفایل</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    فروشگاه
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#"> محصول ۱ </a>
+                    </li>
+                    <li>
+                      <a href="#">محصول ۲ </a>
+                    </li>
+                    <li>
+                      <a href="#">محصول ۳ </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    برند ها
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#"> برند ۱ </a>
+                    </li>
+                    <li>
+                      <a href="#"> برند ۲ </a>
+                    </li>
+                    <li>
+                      <a href="#"> برند ۳ </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    وبلاگ
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#"> وبلاگ </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    صفحات
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#">درباره ما </a>
+                    </li>
+                    <li>
+                      <a href="#"> سوالات متداول </a>
+                    </li>
+                    <li>
+                      <a href="#">تماس با ما </a>
+                    </li>
+                    <li>
+                      <a href="#">صفحه ورود </a>
+                    </li>
+                    <li>
+                      <a href="#"> درخواست ها </a>
+                    </li>
+                    <li>
+                      <a href="#">صفحه ۴۰۴</a>
+                    </li>
+                    <li>
+                      <a href="#">صفحه تراکنش</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div
+          class="flex items-center text-black max-sm:gap-2 max-lg:gap-4 lg:gap-7 text-xl max-md:text-base h-9 max-lg:hidden"
+        >
+          <div class="zoom">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <div class="login-header">
+            <button onClick="{handleUserIconClick}" class="user-icon-button">
+              <i class="fa-regular fa-user"></i>
+            </button>
+          </div>
+          <div class="liked-list">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+          <div class="cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-count bg-white text-black">۰</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container pt-28 pb-10 relative max-lg:hidden">
+      <div class="navbar-container">
+        <ul>
+          <li class="relative group">
+            <a href="#">
+              دسته بندی
+              <FontAwesomeIcon
+                icon="{faChevronDown}"
+                fontSize="{10}"
+                class="pb-1"
+              />
+            </a>
+            <ul class="dropdown-menu-list">
+              <li class="text-black font-bold text-lg">
+                <a href="#">ایتم یک </a>
+              </li>
+              <li class="text-black font-bold text-lg">
+                <a href="#">ایتم دو </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="shipping">
+          <span>ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</span>
+        </div>
+      </div>
+    </div>
+
+    <section
+      class="container lg:p-0 max-lg:pt-20 h-full max-lg:px-2 max-lg:mt-5"
+    >
+      <div class="container">
+        <Carousel />
+
+        <div class="banner-container">
+          <div class="banner-box">
+            <img
+              src="dog-banner.jpg"
+              alt="banner"
+              width="{450}"
+              height="{300}"
+              class="banner-img"
+            />
+            <h6 class="banner-h6 text-[#734723]">
+              یکی بخرید
+              <br />
+              یکی رایگان ببرید
+            </h6>
+            <a href="/" class="banner-btn bg-[#734723]"> اکنون خریداری کنید </a>
+          </div>
+          <div class="banner-box">
+            <img
+              src="cat-banner.jpg"
+              alt="banner"
+              width="{450}"
+              height="{300}"
+              class="banner-img"
+            />
+            <h6 class="banner-h6 text-[#4f3881]">
+              لوازم ضروری
+              <br />
+              حیوانات خانگی
+            </h6>
+            <a href="/" class="banner-btn bg-[#4f3881]"> اکنون خریداری کنید </a>
+          </div>
+          <div class="banner-box">
+            <img
+              src="food-banner.jpg"
+              alt="banner"
+              width="{450}"
+              height="{300}"
+              class="banner-img"
+            />
+            <h6 class="banner-h6 text-[#36616d]">
+              لوازم سرگرمی
+              <br />
+              سگ و گربه
+            </h6>
+            <a href="/" class="banner-btn bg-[#36616d]"> اکنون خریداری کنید </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-container">
+      <div class="container my-28">
+        <div class="container flex flex-col items-center gap-5">
+          <div class="flex justify-between w-full items-center pb-10">
+            <h2 class="section-title">
+              <span> </span>
+              هرآنچه پت شما نیاز دارد
+            </h2>
+
+            <a href="#" class="show-all"> نمایش همه </a>
+          </div>
+          <div class="grid lg:grid-cols-5 max-md:grid-cols-2 gap-5">
+            <div class="category-card">
+              <a href="#" class="category-a">
+                <img src="dog-beds.jpg" width="250" alt="category" />
+                <span>تخت سگ</span>
+              </a>
+            </div>
+            <div class="category-card">
+              <a href="#" class="category-a">
+                <img src="dog-clothing.jpg" width="250" alt="category" />
+                <span>تخت سگ</span>
+              </a>
+            </div>
+            <div class="category-card">
+              <a href="#" class="category-a">
+                <img src="dog-food.jpg" width="250" alt="category" />
+                <span>تخت سگ</span>
+              </a>
+            </div>
+            <div class="category-card">
+              <a href="#" class="category-a">
+                <img src="dog-toys.jpg" width="250" alt="category" />
+                <span>تخت سگ</span>
+              </a>
+            </div>
+            <div class="category-card">
+              <a href="#" class="category-a">
+                <img src="dog-treats.jpg" width="250" alt="category" />
+                <span>تخت سگ</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-20">
+      <div class="container flex flex-col items-center gap-5">
+        <div class="flex w-full justify-between pb-10">
+          <h2 class="section-title"><span> </span>رتبه برتر</h2>
+          <a href="/" class="show-all"> نمایش همه </a>
+        </div>
+
+        <div
+          class="grid grid-flow-row lg:grid-cols-4 md:grid-cols-3 max-sm:grid-cols-2 gap-2"
+        >
+          <a href="/" key="{product.id}" class="shop-card">
+            <div class="card-item relative">
+              <img
+                src="product-4.jpg"
+                alt="product"
+                width="{300}"
+                class="default-img"
+              />
+
+              <div class="like-product">
+                <i class="fa-regular fa-heart"></i>
+              </div>
+              <div class="addTo-basket">
+                <i class="fa-solid fa-basket-shopping"></i>
+              </div>
+            </div>
+            <div class="card-details text-center mt-2">
+              <div class="stars mb-2 flex items-center gap-1">
+                جای ستاره
+                <span class="pr-2 text-black-300">(۲)</span>
+              </div>
+              <span class="card-name block font-bold">نام محصول</span>
+              <span class="card-price block text-gray-500"> قیمت </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-28 relative">
+      <div class="container flex flex-col items-center">
+        <div class="flex w-full justify-between pb-10">
+          <h2 class="section-title"><span> </span>برندهای محبوب</h2>
+          <a href="/" class="show-all"> نمایش همه </a>
+        </div>
+        <div class="grid lg:grid-cols-5 max-md:grid-cols-2 gap-2">
+          <div class="border px-10 py-5 rounded-2xl">
+            <a href="/" class="brand-card">
+              <img src="brand-1.jpg" width="{150}" alt="brand" />
+            </a>
+          </div>
+          <div class="border px-10 py-5 rounded-2xl">
+            <a href="/" class="brand-card">
+              <img src="brand-2.jpg" width="{150}" alt="brand" />
+            </a>
+          </div>
+          <div class="border px-10 py-5 rounded-2xl">
+            <a href="/" class="brand-card">
+              <img src="brand-3.jpg" width="{150}" alt="brand" />
+            </a>
+          </div>
+          <div class="border px-10 py-5 rounded-2xl">
+            <a href="/" class="brand-card">
+              <img src="brand-5.jpg" width="{150}" alt="brand" />
+            </a>
+          </div>
+          <div class="border px-10 py-5 rounded-2xl">
+            <a href="/" class="brand-card">
+              <img src="brand-3.jpg" width="{150}" alt="brand" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container pt-20 mt-10">
+        <div class="footer-container">
+          <div class="flex justify-end align-middle mb-10 pl-5">
+            <div class="flex text-center max-lg:flex-col gap-4">
+              <div
+                class="border-l-2 border-[--primary-color] px-3 max-lg:border-0"
+              >
+                <h4 class="footer-heading">
+                  برای پیشنهادات ثبت نام
+                  <br />
+                  کنید.
+                </h4>
+                <p class="footer-sub-heading">
+                  برای دریافت پیشنهادات و تخفیفات
+                  <br />
+                  منحصر به فرد در خبرنامه ما ثبت نام کنید!
+                </p>
+              </div>
+              <div class="flex items-center">
+                <form action="/" scroll="{false}" class="form-footer">
+                  <input
+                    name="query"
+                    defaultValue=""
+                    class="footer-input"
+                    placeholder="آدرس ایمیل شما..."
+                  />
+
+                  <div class="flex">
+                    <button class="submit-btn" type="submit">
+                      <i class="fa-regular fa-envelope"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="mt-5 grid grid-flow-row justify-between align-middle lg:grid-cols-4 max-lg:grid-cols-2"
+          >
+            <div class="footer-list">
+              <ul class="flex flex-col gap-2">
+                <li>
+                  <img src="logo-white.png" width="200" alt="logo" />
+                </li>
+                <li>
+                  <p class="footer-p">
+                    اگر سؤالی دارید،با ما در <br />
+                    <span class="text-[--primary-color]">
+                      support@example
+                    </span>
+                    تماس بگیرید.
+                  </p>
+                </li>
+                <li class="flex gap-2 items-center py-4">
+                  <i
+                    class="fa-solid fa-location-dot text-[--primary-color] text-xl"
+                  ></i>
+                  <p class="text-white font-bold">
+                    ایران، تهران ، منطقه <br />۶ میدان انقلاب، خیابان فخرراز
+                  </p>
+                </li>
+                <li class="flex gap-2 items-center py-4">
+                  <i
+                    class="fa-solid fa-mobile-screen-button text-[--primary-color] text-xl"
+                  ></i>
+                  <p class="text-white font-bold">۰۲۱-۲۱-۲۲۲(۹۸+)</p>
+                </li>
+                <li class="flex gap-2">
+                  <i class="fa-brands fa-x-twitter brands-icon"></i>
+                  <i class="fa-brands fa-facebook-f brands-icon"></i>
+                  <i class="fa-brands fa-linkedin brands-icon"></i>
+                  <i class="fa-brands fa-pinterest brands-icon"></i>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-list">
+              <h6 class="footer-title text-white">شرکت</h6>
+              <ul class="flex flex-col gap-3">
+                <li class="footer-link">
+                  <a href="/">مشاغل</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">درباره ما</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">منشور اخلاقی</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">رویدادها</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">فروشندگان</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">برنامه های وابسته</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-list">
+              <h6 class="footer-title text-white">خدمات مشتری</h6>
+              <ul class="flex flex-col gap-3">
+                <li class="footer-link">
+                  <a href="/">پیگیری سفارش</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">بازگشت کالا</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">اطلاعات ارسال</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">توصیه ها و یادآوری ها</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">محل فروشگاه پت</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">تماس با ما</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-list">
+              <h6 class="footer-title text-white">خدمات</h6>
+              <ul class="flex flex-col gap-3">
+                <li class="footer-link">
+                  <a href="/">زیبایی</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">آموزش سگ</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">خدمات دامپزشکی</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">بیمه پتیو</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">پذیرش پت</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">مرکز منابع</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between py-5">
+          <p class="copy-right">© ۲۰۲۱ فروشگاه حیوانات خانگی پتیو</p>
+          <img
+            src="payment.png"
+            class="w-[300px] max-lg:w-[150]"
+            alt="payment"
+          />
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

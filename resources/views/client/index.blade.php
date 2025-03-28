@@ -1,6 +1,7 @@
 @extends('client.layout.master')
 
 @section('content')
+
     <div class="container pt-28 pb-10 relative max-lg:hidden">
         <div class="navbar-container">
             <ul>
@@ -29,63 +30,59 @@
         </div>
     </div>
 
-    <section class="container lg:p-0 max-lg:pt-20 h-full max-lg:px-2 max-lg:mt-5">
+    <section
+        class="container lg:p-0 max-lg:pt-20 h-full max-lg:px-2 max-lg:mt-5"
+    >
         <div class="container">
             <Carousel />
-
 
             <div class="banner-container">
                 <div class="banner-box">
                     <img
                         src="{{ asset('assets/dog-banner.jpg') }}"
                         alt="banner"
-                        width={450}
-                        height={300}
+                        width="{450}"
+                        height="{300}"
                         class="banner-img"
                     />
                     <h6 class="banner-h6 text-[#734723]">
                         یکی بخرید
-                        <br /> یکی رایگان ببرید
+                        <br />
+                        یکی رایگان ببرید
                     </h6>
-                    <a href="/" class="banner-btn bg-[#734723]">
-                        اکنون خریداری کنید
-                    </a>
+                    <a href="/" class="banner-btn bg-[#734723]"> اکنون خریداری کنید </a>
                 </div>
                 <div class="banner-box">
                     <img
                         src="{{ asset('assets/cat-banner.jpg') }}"
                         alt="banner"
-                        width={450}
-                        height={300}
+                        width="{450}"
+                        height="{300}"
                         class="banner-img"
                     />
-                    <h6 class="banner-h6 text-[#4f3881] ">
+                    <h6 class="banner-h6 text-[#4f3881]">
                         لوازم ضروری
-                        <br /> حیوانات خانگی
+                        <br />
+                        حیوانات خانگی
                     </h6>
-                    <a href="/" class="banner-btn bg-[#4f3881]">
-                        اکنون خریداری کنید
-                    </a>
+                    <a href="/" class="banner-btn bg-[#4f3881]"> اکنون خریداری کنید </a>
                 </div>
                 <div class="banner-box">
                     <img
                         src="{{ asset('assets/food-banner.jpg') }}"
                         alt="banner"
-                        width={450}
-                        height={300}
+                        width="{450}"
+                        height="{300}"
                         class="banner-img"
                     />
                     <h6 class="banner-h6 text-[#36616d]">
                         لوازم سرگرمی
-                        <br /> سگ و گربه
+                        <br />
+                        سگ و گربه
                     </h6>
-                    <a href="/" class="banner-btn bg-[#36616d] ">
-                        اکنون خریداری کنید
-                    </a>
+                    <a href="/" class="banner-btn bg-[#36616d]"> اکنون خریداری کنید </a>
                 </div>
             </div>
-
-
         </div>
     </section>
 
@@ -139,28 +136,19 @@
     <section class="container py-20">
         <div class="container flex flex-col items-center gap-5">
             <div class="flex w-full justify-between pb-10">
-                <h2 class="section-title">
-                    <span> </span>رتبه برتر
-                </h2>
-                <a href="/" class="show-all">
-                    نمایش همه
-                </a>
+                <h2 class="section-title"><span> </span>رتبه برتر</h2>
+                <a href="/" class="show-all"> نمایش همه </a>
             </div>
 
-            <div class="grid grid-flow-row lg:grid-cols-4 md:grid-cols-3 max-sm:grid-cols-2 gap-2 ">
-
-
-                <a
-                    href='/'
-                    key={product.id}
-                    class="shop-card"
-
-                >
+            <div
+                class="grid grid-flow-row lg:grid-cols-4 md:grid-cols-3 max-sm:grid-cols-2 gap-2"
+            >
+                <a href="/" key="{product.id}" class="shop-card">
                     <div class="card-item relative">
                         <img
                             src="{{ asset('assets/product-4.jpg') }}"
                             alt="product"
-                            width={300}
+                            width="{300}"
                             class="default-img"
                         />
 
@@ -172,60 +160,52 @@
                         </div>
                     </div>
                     <div class="card-details text-center mt-2">
-                        <div class="stars mb-2 flex items-center gap-1 ">
+                        <div class="stars mb-2 flex items-center gap-1">
                             جای ستاره
                             <span class="pr-2 text-black-300">(۲)</span>
                         </div>
                         <span class="card-name block font-bold">نام محصول</span>
-                        <span class="card-price block text-gray-500">
-                            قیمت
-                          </span>
+                        <span class="card-price block text-gray-500"> قیمت </span>
                     </div>
                 </a>
-
-
             </div>
-
         </div>
     </section>
 
     <section class="container py-28 relative">
         <div class="container flex flex-col items-center">
             <div class="flex w-full justify-between pb-10">
-                <h2 class="section-title">
-                    <span> </span>برندهای محبوب
-                </h2>
-                <a href="/" class="show-all">
-                    نمایش همه
-                </a>
+                <h2 class="section-title"><span> </span>برندهای محبوب</h2>
+                <a href="/" class="show-all"> نمایش همه </a>
             </div>
             <div class="grid lg:grid-cols-5 max-md:grid-cols-2 gap-2">
                 <div class="border px-10 py-5 rounded-2xl">
                     <a href="/" class="brand-card">
-                        <img src="{{ asset('assets/brand-1.jpg') }}" width={150} alt="brand" />
+                        <img src="{{ asset('assets/brand-1.jpg') }}" width="{150}" alt="brand" />
                     </a>
                 </div>
                 <div class="border px-10 py-5 rounded-2xl">
                     <a href="/" class="brand-card">
-                        <img src="{{ asset('assets/brand-2.jpg') }}" width={150} alt="brand" />
+                        <img src="{{ asset('assets/brand-2.jpg') }}" width="{150}" alt="brand" />
                     </a>
                 </div>
                 <div class="border px-10 py-5 rounded-2xl">
                     <a href="/" class="brand-card">
-                        <img src="{{ asset('assets/brand-3.jpg') }}" width={150} alt="brand" />
+                        <img src="{{ asset('assets/brand-3.jpg') }}" width="{150}" alt="brand" />
                     </a>
                 </div>
                 <div class="border px-10 py-5 rounded-2xl">
                     <a href="/" class="brand-card">
-                        <img src="{{ asset('assets/brand-5.jpg') }}" width={150} alt="brand" />
+                        <img src="{{ asset('assets/brand-5.jpg') }}" width="{150}" alt="brand" />
                     </a>
                 </div>
                 <div class="border px-10 py-5 rounded-2xl">
                     <a href="/" class="brand-card">
-                        <img src="{{ asset('assets/brand-3.jpg') }}" width={150} alt="brand" />
+                        <img src="{{ asset('assets/brand-3.jpg') }}" width="{150}" alt="brand" />
                     </a>
                 </div>
             </div>
         </div>
     </section>
+
 @endsection

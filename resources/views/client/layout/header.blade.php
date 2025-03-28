@@ -1,4 +1,4 @@
-<header class="absolute right-0 left-0 w-full z-10">
+<header class="w-full z-10">
     <div
         class="container mx-auto flex justify-between items-center py-5 px-5"
     >
@@ -104,7 +104,7 @@
             </nav>
         </div>
         <div
-            class="flex items-center text-black  max-sm:gap-2 max-lg:gap-4 lg:gap-7 text-xl max-md:text-base h-9 max-lg:hidden"
+            class="flex items-center text-black max-sm:gap-2 max-lg:gap-4 lg:gap-7 text-xl max-md:text-base h-9 max-lg:hidden"
         >
             <div class="zoom">
                 <i class="fa-solid fa-magnifying-glass"></i>

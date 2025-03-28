@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="../style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../fontawesome/css/all.css" />
+  </head>
+  <body style="direction: rtl">
+    <header class="absolute right-0 left-0 w-full z-10">
+      <div
+        class="container mx-auto flex justify-between items-center py-5 px-5"
+      >
+        <div class="hamburger-menu text-black">
+          <button onClick="{toggleSidebar}">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-10">
+          <div class="logo">
+            <img src="/dist/logo.png" alt="logo" />
+          </div>
+          <nav class="max-lg:hidden">
+            <div class="navbar text-black">
+              <ul class="flex items-center gap-6">
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    خانه
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#">پروفایل</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    فروشگاه
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#"> محصول ۱ </a>
+                    </li>
+                    <li>
+                      <a href="#">محصول ۲ </a>
+                    </li>
+                    <li>
+                      <a href="#">محصول ۳ </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    برند ها
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#"> برند ۱ </a>
+                    </li>
+                    <li>
+                      <a href="#"> برند ۲ </a>
+                    </li>
+                    <li>
+                      <a href="#"> برند ۳ </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    وبلاگ
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#"> وبلاگ </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative group beforeBlack">
+                  <a href="#">
+                    صفحات
+                    <i class="fa-solid fa-chevron-down text-base"></i>
+                  </a>
+                  <ul class="dropdown-menu-list">
+                    <li>
+                      <a href="#">درباره ما </a>
+                    </li>
+                    <li>
+                      <a href="#"> سوالات متداول </a>
+                    </li>
+                    <li>
+                      <a href="#">تماس با ما </a>
+                    </li>
+                    <li>
+                      <a href="#">صفحه ورود </a>
+                    </li>
+                    <li>
+                      <a href="#"> درخواست ها </a>
+                    </li>
+                    <li>
+                      <a href="#">صفحه ۴۰۴</a>
+                    </li>
+                    <li>
+                      <a href="#">صفحه تراکنش</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div
+          class="flex items-center text-black max-sm:gap-2 max-lg:gap-4 lg:gap-7 text-xl max-md:text-base h-9 max-lg:hidden"
+        >
+          <div class="zoom">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <div class="login-header">
+            <button onClick="{handleUserIconClick}" class="user-icon-button">
+              <i class="fa-regular fa-user"></i>
+            </button>
+          </div>
+          <div class="liked-list">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+          <div class="cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-count bg-white text-black">۰</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="container relative py-32">
+      <div class="flex flex-col items-center">
+        <div class="flex w-full justify-between pb-10">
+          <h2 class="section-title"><span> </span>برندهای محبوب</h2>
+        </div>
+        <div class="grid lg:grid-cols-4 max-lg:grid-cols-2 gap-5">
+          <div class="brand-card border rounded-2xl p-2 shadow-md">
+            <div class="card-item border-none">
+              <img src="/dist/brand-1.jpg" width="250" alt="{brand.name}" />
+            </div>
+            <div class="card-details text-center mt-2 py-5">
+              <div class="flex flex-col">
+                <div class="mb-2 flex items-center gap-1">جای ستاره</div>
+                <span class="pr-2 text-black-300 block">
+                  ({brand.comments})
+                </span>
+              </div>
+              <h3 class="font-bold text-3xl">{brand.name}</h3>
+              <a href="/" class="blackBtn font-normal w-3/4"> مشاهده برند </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-shop">
+      <div class="container pt-20">
+        <div class="footer-container">
+          <div class="footer-topWrap">
+            <div
+              class="flex items-center gap-4 max-w-prose border-l-2 max-md:border-0"
+            >
+              <i
+                class="fa-regular fa-envelope-open text-[--primary-color] border-2 border-[--primary-color] text-2xl rounded-full p-2"
+              ></i>
+              <h2 class="font-bold text-2xl max-md:text-lg">
+                اکنون به ما جمع ما بپیوندید و در خرید بعدی خود ۱۰٪ تخفیف بگیرید.
+              </h2>
+            </div>
+            <div class="flex items-center gap-4 pr-5">
+              <p class="text-black-300 font-bold text-base max-md:text-xs">
+                با عضویت در خبرنامه از جدیدترین اخبار ما مطلع شوید.
+              </p>
+
+              <form action="/" scroll="{false}" class="form-footer-form">
+                <input
+                  name="query"
+                  defaultValue=""
+                  class="footer-input-form"
+                  placeholder="آدرس ایمیل شما"
+                />
+
+                <div class="flex">
+                  <button class="submit-btn-form" type="submit">عضویت</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <hr />
+          <div
+            class="mt-5 grid grid-flow-row justify-between align-middle lg:grid-cols-4 max-lg:grid-cols-2"
+          >
+            <div class="footer-list">
+              <ul class="flex flex-col gap-2">
+                <li>
+                  <img src="/dist/logo.png" width="200" alt="logo" />
+                </li>
+                <li>
+                  <p class="footer-p">
+                    اگر سؤالی دارید،با ما در <br />
+                    <span class="text-[--primary-color]">
+                      support@example
+                    </span>
+                    تماس بگیرید.
+                  </p>
+                </li>
+                <li class="flex gap-2 items-center py-4">
+                  <i
+                    class="fa-solid fa-location-dot text-[--primary-color] text-xl"
+                  ></i>
+                  <p class="text-black font-bold">
+                    ایران، تهران ، منطقه <br />۶ میدان انقلاب، خیابان فخرراز
+                  </p>
+                </li>
+                <li class="flex gap-2 items-center py-4">
+                  <i
+                    class="fa-solid fa-mobile-screen-button text-[--primary-color] text-xl"
+                  ></i>
+                  <p class="text-black font-bold">۰۲۱-۲۱-۲۲۲(۹۸+)</p>
+                </li>
+                <li class="flex gap-2">
+                  <i class="fa-brands fa-x-twitter brands-icon w-8 h-8"> </i>
+                  <i class="fa-brands fa-facebook-f brands-icon w-8 h-8"> </i>
+                  <i class="fa-brands fa-linkedin brands-icon w-8 h-8"> </i>
+                  <i class="fa-brands fa-pinterest brands-icon w-8 h-8"> </i>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-list">
+              <h6 class="footer-title text-black">شرکت</h6>
+              <ul class="flex flex-col gap-3">
+                <li class="footer-link">
+                  <a href="/">مشاغل</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">درباره ما</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">منشور اخلاقی</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">رویدادها</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">فروشندگان</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">برنامه های وابسته</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-list">
+              <h6 class="footer-title text-black">خدمات مشتری</h6>
+              <ul class="flex flex-col gap-3">
+                <li class="footer-link">
+                  <a href="/">پیگیری سفارش</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">بازگشت کالا</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">اطلاعات ارسال</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">توصیه ها و یادآوری ها</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">محل فروشگاه پت</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">تماس با ما</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-list">
+              <h6 class="footer-title text-black">خدمات</h6>
+              <ul class="flex flex-col gap-3">
+                <li class="footer-link">
+                  <a href="/">زیبایی</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">آموزش سگ</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">خدمات دامپزشکی</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">بیمه پتیو</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">پذیرش پت</a>
+                </li>
+                <li class="footer-link">
+                  <a href="/">مرکز منابع</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between py-5">
+          <p class="copy-right">© ۲۰۲۱ فروشگاه حیوانات خانگی پتیو</p>
+          <img
+            src="/dist/payment.png"
+            class="w-[300px] max-md:w-[150px]"
+            alt="peyment"
+          />
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

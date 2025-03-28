@@ -84,23 +84,23 @@
                     </div>
                     <div class="grid grid-cols-4 gap-3">
                         <div class="shadow-lg bg-white rounded-[8px] flex flex-col p-4">
-                            <span class="text-[15px] text-gray-600 mb-4">سفارشات فعال شما</span>
+                            <span class="text-[15px] text-gray-600 mb-4">سفارشات</span>
                             <div class="flex justify-end">
-                                <span class="text-[18px] font-bold">۱۵</span>
+                                <span class="text-[18px] font-bold">{{ count($orders) }}</span>
                                 <span class="text-[15px] text-gray-600 mr-2">عدد</span>
                             </div>
                         </div>
                         <div class="shadow-lg bg-white rounded-[8px] flex flex-col p-4">
-                            <span class="text-[15px] text-gray-600 mb-4">درخواست های فعال شما</span>
+                            <span class="text-[15px] text-gray-600 mb-4">درخواست های شما</span>
                             <div class="flex justify-end">
-                                <span class="text-[18px] font-bold">۱۵</span>
+                                <span class="text-[18px] font-bold">{{ count($requests) }}</span>
                                 <span class="text-[15px] text-gray-600 mr-2">عدد</span>
                             </div>
                         </div>
                         <div class="shadow-lg bg-white rounded-[8px] flex flex-col p-4">
-                            <span class="text-[15px] text-gray-600 mb-4">پت های شما</span>
+                            <span class="text-[15px] text-gray-600 mb-4">پت ها شما</span>
                             <div class="flex justify-end">
-                                <span class="text-[18px] font-bold">۱۵</span>
+                                <span class="text-[18px] font-bold">{{ count($pets) }}</span>
                                 <span class="text-[15px] text-gray-600 mr-2">عدد</span>
                             </div>
                         </div>
@@ -150,6 +150,203 @@
                         </form>
                     </div>
                 </div>
+                <div class="profile-page flex flex-col" id="profile-orders">
+                    <div class="flex justify-between items-center py-4 px-5 mb-4" style="border-bottom: 2px solid #9ca3af">
+                        <span class="text-[28px] font-bold">
+                            لیست سفارشات شما
+                        </span>
+                    </div>
+                    <div>
+                        <table class="w-full">
+                            <thead>
+                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <th class="px-4 py-3">شماره سفارش</th>
+                                <th class="px-4 py-3">قیمت نهایی</th>
+                                <th class="px-4 py-3">تاریخ</th>
+                                <th class="px-4 py-3">تعداد محصولات</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                @if($orders)
+                                    @foreach($orders as $order)
+                                        <tr class="text-gray-700">
+                                            <td class="px-4 py-3 text-sm border">{{ $order->id }}</td>
+                                            <td class="px-4 py-3 text-ms border">{{ $order->total_price }}</td>
+                                            <td class="px-4 py-3 text-xs border">{{ \Morilog\Jalali\Jalalian::forge($order->created_at)->format('%A, %d %B %y') }}</td>
+                                            <td class="px-4 py-3 text-sm border">{{ count($order->orderItems) }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="4" class="p-3 text-center">هیچ سفارشی ندارید</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="profile-page flex flex-col" id="profile-favorites">
+                    <div class="flex justify-between items-center py-4 px-5 mb-4" style="border-bottom: 2px solid #9ca3af">
+                        <span class="text-[28px] font-bold">
+                            لیست علاقه مندی ها
+                        </span>
+                    </div>
+                    <div>
+                        <table class="w-full">
+                            <thead>
+                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <th class="px-4 py-3">عکس</th>
+                                <th class="px-4 py-3">اسم محصول</th>
+                                <th class="px-4 py-3">قیمت</th>
+                                <th class="px-4 py-3">رنگ</th>
+                                <th class="px-4 py-3">سایز</th>
+                                <th class="px-4 py-3">عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                            <tr>
+                                <td colspan="6" class="p-3 text-center">لیست محصولات مورد علاقه شما خالی میباشد</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="profile-page flex flex-col" id="profile-requests">
+                    <div class="flex justify-between items-center py-4 px-5 mb-4" style="border-bottom: 2px solid #9ca3af">
+                        <span class="text-[28px] font-bold">
+                            درخواست های شما
+                        </span>
+                    </div>
+                    <div>
+                        <table class="table-fixed">
+                            <thead>
+                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <th class="px-4 py-3">درخواست</th>
+                                <th class="px-4 py-3">پت</th>
+                                <th class="px-4 py-3">نوع رسیدگی</th>
+                                <th class="px-4 py-3">دامپزشک</th>
+                                <th class="px-4 py-3">وضعیت</th>
+                                <th class="px-4 py-3">ادرس</th>
+                                <th class="px-4 py-3">مبلغ پرداختی شما</th>
+                                <th class="px-4 py-3">تاریخ رسیدگی</th>
+                                <th class="px-4 py-3">اورژانسی</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                            @if($requests)
+                                @foreach($requests as $request)
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 text-sm border">{{ $request->request_type->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->pet->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->handling_type->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">Dr. {{ $request->veterinarian ? $request->veterinarian->first_name . ' ' . $request->veterinarian->last_name : 'در انتظار دامپزشک' }}</td>
+                                        <td class="px-4 py-3 text-sm border">
+                                            @switch($request->status)
+                                                @case(null)
+                                                    در حال بررسی
+                                                @break
+                                                @case('pending_pay')
+                                                    در انتظار پرداخت
+                                                @break
+                                                @case('completed')
+                                                    تکمیل شده
+                                                @break
+                                                @case('canceled')
+                                                    لغو شده
+                                                @break
+                                            @endswitch
+                                        </td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->address->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->total_paid }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ \Morilog\Jalali\Jalalian::forge($request->handling_date)->format('%A, %d %B %y') }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->is_emergency ? 'هست' : 'نیست' }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="profile-page flex flex-col" id="profile-addresses">
+                    <div class="flex justify-between items-center py-4 px-5 mb-4" style="border-bottom: 2px solid #9ca3af">
+                        <span class="text-[28px] font-bold">
+                            ادرس های شما
+                        </span>
+                    </div>
+                    <div>
+                        <table class="table-fixed w-full">
+                            <thead>
+                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <th class="px-4 py-3">اسم</th>
+                                <th class="px-4 py-3">ادرس</th>
+                                <th class="px-4 py-3">لت</th>
+                                <th class="px-4 py-3">لانگ</th>
+                                <th class="px-4 py-3">عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                            @if($addresses)
+                                @foreach($addresses as $address)
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 text-sm border">{{ $request->address->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->address->address }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->address->lat ? $request->address->lat : 'ندارد' }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->address->lng ? $request->address->lng : 'ندارد' }}</td>
+                                        <td class="px-4 py-3 text-sm border">
+                                            <button class="bg-red-500 text-white py-1 px-3">حذف</button>
+                                            <button class="bg-yellow-500 text-white py-1 px-3">ویرایش</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="profile-page flex flex-col" id="profile-pets">
+                    <div class="flex justify-between items-center py-4 px-5 mb-4" style="border-bottom: 2px solid #9ca3af">
+                        <span class="text-[28px] font-bold">
+                            پت های شما
+                        </span>
+                    </div>
+                    <div>
+                        <table class="table-fixed w-full">
+                            <thead>
+                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <th class="px-4 py-3">اسم</th>
+                                <th class="px-4 py-3">تاریخ تولد</th>
+                                <th class="px-4 py-3">جنسیت</th>
+                                <th class="px-4 py-3">رنگ پوست</th>
+                                <th class="px-4 py-3">نژاد</th>
+                                <th class="px-4 py-3">دسته بندی</th>
+                                <th class="px-4 py-3">عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                            @if($pets)
+                                @foreach($pets as $pet)
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 text-sm border">{{ $pet->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $pet->birthdate }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $pet->gender }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $pet->skin_color }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $pet->breed->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $pet->PetCategory->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">
+                                            <button class="bg-red-500 text-white py-1 px-3">حذف</button>
+                                            <button class="bg-yellow-500 text-white py-1 px-3">ویرایش</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="7">هیج پتی در سیستم ما ثبت نکرده اید</td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -158,7 +355,7 @@
 
 @section('script')
     <script>
-        let current = 'profile-profile';
+        let current = 'profile-requests';
         const changeProfilePage = (tab) => {
             let pages = document.querySelectorAll('.profile-page');
             pages.forEach(page => {

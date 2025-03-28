@@ -44,6 +44,14 @@ class Request extends Model
     /**
      * @return BelongsTo
      */
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
     public function veterinarian(): BelongsTo
     {
         return $this->belongsTo(User::class, 'veterinarian_id');

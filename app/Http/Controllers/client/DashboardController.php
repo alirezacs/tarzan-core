@@ -9,6 +9,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('client.dashboard');
+        $orders = auth()->user()->orders->all();
+        $requests = auth()->user()->requests->all();
+        $addresses = auth()->user()->addresses->all();
+        $pets = auth()->user()->pets->all();
+        return view('client.dashboard', compact('orders', 'requests', 'addresses', 'pets'));
     }
 }

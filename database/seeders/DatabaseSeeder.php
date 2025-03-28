@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
            ArticleCategoryTableSeeder::class,
            ArticleTableSeeder::class,
            TransactionTableSeeder::class,
+           FavoriteTableSeeder::class,
         ]);
     }
 }

@@ -13,6 +13,7 @@ class DashboardController extends Controller
         $requests = auth()->user()->requests->all();
         $addresses = auth()->user()->addresses->all();
         $pets = auth()->user()->pets->all();
-        return view('client.dashboard', compact('orders', 'requests', 'addresses', 'pets'));
+        $favorites = auth()->user()->favorites->all();
+        return view('client.dashboard', compact('orders', 'requests', 'addresses', 'pets', 'favorites'));
     }
 }

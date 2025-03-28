@@ -159,7 +159,7 @@
                     <div>
                         <table class="w-full">
                             <thead>
-                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                            <tr class="text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                                 <th class="px-4 py-3">شماره سفارش</th>
                                 <th class="px-4 py-3">قیمت نهایی</th>
                                 <th class="px-4 py-3">تاریخ</th>
@@ -190,6 +190,7 @@
                         <span class="text-[28px] font-bold">
                             لیست علاقه مندی ها
                         </span>
+                        <a href="#">لیست محصولات</a>
                     </div>
                     <div>
                         <table class="w-full">
@@ -198,15 +199,30 @@
                                 <th class="px-4 py-3">عکس</th>
                                 <th class="px-4 py-3">اسم محصول</th>
                                 <th class="px-4 py-3">قیمت</th>
-                                <th class="px-4 py-3">رنگ</th>
-                                <th class="px-4 py-3">سایز</th>
                                 <th class="px-4 py-3">عملیات</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white">
-                            <tr>
-                                <td colspan="6" class="p-3 text-center">لیست محصولات مورد علاقه شما خالی میباشد</td>
-                            </tr>
+                            @if($favorites)
+                                @foreach($favorites as $favorite)
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 text-sm border">
+                                            <div class="w-[40px] h-[40px] rounded-full overflow-hidden border-solid border-gray-800 border-2">
+                                                <img src="{{ $favorite->getFirstMediaUrl('thumbnail') }}" alt="">
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-ms border">{{ $favorite->title }}</td>
+                                        <td class="px-4 py-3 text-ms border">{{ $favorite->product_variants->first()->price }}</td>
+                                        <td class="px-4 py-3 text-sm border">
+                                            <button class="bg-red-500 text-white py-1 px-3 rounded-[8px]">حذف از لیست</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6" class="p-3 text-center">لیست محصولات مورد علاقه شما خالی میباشد</td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                     </div>
@@ -216,6 +232,7 @@
                         <span class="text-[28px] font-bold">
                             درخواست های شما
                         </span>
+                        <a href="#">درخواست جدید</a>
                     </div>
                     <div>
                         <table class="table-fixed">
@@ -355,7 +372,7 @@
 
 @section('script')
     <script>
-        let current = 'profile-requests';
+        let current = 'profile-dashboard';
         const changeProfilePage = (tab) => {
             let pages = document.querySelectorAll('.profile-page');
             pages.forEach(page => {

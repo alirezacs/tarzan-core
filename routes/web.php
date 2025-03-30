@@ -8,6 +8,7 @@ use App\Http\Controllers\Client\UserController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\BasketController;
+use App\Http\Controllers\Client\BlogController;
 
 /* Home Route */
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -52,3 +53,11 @@ Route::view('payment/failed', 'client.payment.failed')->name('payment.failed');
 /* About Us Page */
 Route::view('about', 'client.about')->name('about');
 /* About Us Page */
+
+/* Contact Us Page */
+Route::view('contact', 'client.contact')->name('contact');
+/* Contact Us Page */
+
+/* Blog Routes */
+Route::resource('article', BlogController::class)->only(['index']);
+/* Blog Routes */

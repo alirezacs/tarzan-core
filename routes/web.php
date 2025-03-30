@@ -48,3 +48,7 @@ Route::get('basket/verify', [BasketController::class, 'verify'])->name('basket.v
 Route::view('payment/success', 'client.payment.success')->name('payment.success');
 Route::view('payment/failed', 'client.payment.failed')->name('payment.failed');
 /* Payment Routes */
+
+/* About Us Page */
+Route::view('about', 'client.about')->name('about');
+/* About Us Page */

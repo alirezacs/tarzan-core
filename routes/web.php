@@ -30,6 +30,10 @@ Route::middleware('auth')->prefix('profile')->group(function () {
 
     /* Basket Controller */
     Route::post('basket/add', [BasketController::class, 'addToBasket'])->name('basket.add');
+    Route::post('basket/remove', [BasketController::class, 'removeFromBasket'])->name('basket.remove');
+    Route::post('basket/increase', [BasketController::class, 'increaseItem'])->name('basket.increase');
+    Route::post('basket/decrease', [BasketController::class, 'decreaseItem'])->name('basket.decrease');
+    Route::post('basket/pay', [BasketController::class, 'pay'])->name('basket.pay');
     /* Basket Controller */
 });
 
@@ -37,3 +41,10 @@ Route::middleware('auth')->prefix('profile')->group(function () {
 Route::get('store', [ProductController::class, 'index'])->name('product.index');
 Route::get('store/product/{product}', [ProductController::class, 'show'])->name('product.show');
 /* Product Routes */
+
+Route::get('basket/verify', [BasketController::class, 'verify'])->name('basket.verify');
+
+/* Payment Routes */
+Route::view('payment/success', 'client.payment.success')->name('payment.success');
+Route::view('payment/failed', 'client.payment.failed')->name('payment.failed');
+/* Payment Routes */

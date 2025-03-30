@@ -49,6 +49,12 @@
                             </button>
                         </li>
                         <li class="mb-3 text-[18px]">
+                            <button class="flex items-center w-full" onclick="changeProfilePage('profile-basket')">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                                <span class="mr-2">سبد خرید</span>
+                            </button>
+                        </li>
+                        <li class="mb-3 text-[18px]">
                             <button class="flex items-center w-full" onclick="changeProfilePage('profile-favorites')">
                                 <i class="fa-solid fa-heart"></i>
                                 <span class="mr-2">علاقه مندی ها</span>
@@ -183,6 +189,88 @@
                                 @endif
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="profile-page flex flex-col" id="profile-basket">
+                    <div class="flex justify-between items-center py-4 px-5 mb-4" style="border-bottom: 2px solid #9ca3af">
+                        <span class="text-[28px] font-bold">
+                            سبد خرید شما
+                        </span>
+                    </div>
+                    <div>
+                        <table class="w-full">
+                            <thead>
+                            <tr class="text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <th class="px-4 py-3">محصول</th>
+                                <th class="px-4 py-3">قیمت</th>
+                                <th class="px-4 py-3">تعداد</th>
+                                <th class="px-4 py-3">تخفیف</th>
+                                <th class="px-4 py-3">عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                            @if($basket = auth()->user()->basket && count($items = auth()->user()->basket->basketItems))
+                                @foreach($items as $item)
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 text-sm border">
+                                            @if($item->basketable_type === 'App\Models\ProductVariant')
+                                                {{ $item->basketable->title }}
+                                            @else
+                                                درخواست
+                                                {{ $item->basketable->request_type->name }}
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-3 text-ms border">{{ $item->total_price }} تومان</td>
+                                        <td class="px-4 py-3 text-ms border">{{ $item->quantity }}</td>
+                                        <td class="px-4 py-3 text-ms border">{{ $item->total_discount }} تومان</td>
+                                        <td class="px-4 py-3 text-sm border flex items-center">
+                                            <form action="{{ route('basket.remove') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="basket_id" value="{{ $item->id }}">
+                                                <button class="py-2 px-[3rem] bg-red-700 text-white rounded-[8px]">
+                                                    حذف
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('basket.increase') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="basket_item_id" value="{{ $item->id }}">
+                                                <button class="py-2 px-[3rem] bg-gray-300 rounded-[8px]">
+                                                    اضافه کردن
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('basket.decrease') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="basket_item_id" value="{{ $item->id }}">
+                                                <button class="py-2 px-[3rem] bg-gray-300 rounded-[8px]">
+                                                    کم کردن
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5" class="p-3 text-center">
+                                        سبد خرید شما خالی میباشد
+                                        <a href="{{ route('product.index') }}" class="underline text-blue-900">محصولات</a>
+                                    </td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                        <div class="flex items-center justify-between p-3 border-gray-400 border-solid border-t-2 mt-2">
+                            <span class="text-gray-800">
+                                مجموع سبد خرید شما:
+                                <span class="text-xl font-bold">{{ auth()->user()->basket->basketItems ? auth()->user()->basket->basketItems()->sum('total_price') : 0 }}</span>
+                                تومان
+                            </span>
+                            <form action="{{ route('basket.pay') }}" method="POST">
+                                @csrf
+                                <button class="rounded-[8px] font-bold text-white bg-green-800 text-sm py-2 px-[5rem]">
+                                    نهایی کردن خرید
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="profile-page flex flex-col" id="profile-favorites">
@@ -372,7 +460,7 @@
 
 @section('script')
     <script>
-        let current = 'profile-dashboard';
+        let current = new URL(document.URL).hash.slice(1) || 'profile-dashboard';
         const changeProfilePage = (tab) => {
             let pages = document.querySelectorAll('.profile-page');
             pages.forEach(page => {

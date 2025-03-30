@@ -31,23 +31,22 @@ class FavoriteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => ['required', 'exists:products,id']
+            'product_id' => ['required', 'exists:products,id'],
         ]);
 
-        /* Check For Already Exists */
+        /* Validate For Already Exists */
         if(auth()->user()->favorites()->exists($request->product_id)){
-            toastr()->error('از قبل در لیست موجود میباشد');
+            session()->flash('notification', 'این محصول از قبل در لیست شما موجود میباشد');
             return redirect()->back();
         }
-        /* Check For Already Exists */
+        /* Validate For Already Exists */
 
-        $product = Product::query()->find($request->product_id);
+        auth()->user()->favorites()->attach($request->product_id);
 
-        auth()->user()->favorites()->attach($product->id);
+        session()->flash('notification-success');
+        session()->flash('notification', 'با موفقیت به لیست شما اضافه شد');
 
-        toastr()->success('با موفقیت به لیست علاقه مندی ها اضافه شد');
-
-        return redirect()->route('back');
+        return redirect()->route('product.show', $request->product_id);
     }
 
     /**

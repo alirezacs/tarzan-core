@@ -41,7 +41,7 @@ class BasketService
         /* Create Order Items */
 
         /* Delete Basket */
-        $basket->delete();
+        $basket->basketItems()->delete();
         /* Delete Basket */
     }
 }

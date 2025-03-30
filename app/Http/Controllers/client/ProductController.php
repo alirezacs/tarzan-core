@@ -19,7 +19,7 @@ class ProductController extends Controller
                 $where['product_category_id'] = $request->get('category');
             }
         }
-        $products = Product::query()->where($where)->get();
+        $products = Product::query()->where($where)->whereHas('product_variants')->get();
 
         $categories = ProductCategory::query()->where('is_active', 1)->get();
         return view('client.product.index', compact('categories', 'products'));
@@ -27,6 +27,6 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        dd($product);
+        return view('client.product.view', compact('product'));
     }
 }

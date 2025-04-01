@@ -9,6 +9,7 @@ use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\BasketController;
 use App\Http\Controllers\Client\BlogController;
+use App\Http\Controllers\Client\RequestController;
 
 /* Home Route */
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -61,3 +62,7 @@ Route::view('contact', 'client.contact')->name('contact');
 /* Blog Routes */
 Route::resource('article', BlogController::class)->only(['index']);
 /* Blog Routes */
+
+/* Request Routes */
+Route::resource('request', RequestController::class)->only(['show']);
+/* Request Routes */

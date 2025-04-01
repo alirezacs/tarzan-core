@@ -61,11 +61,8 @@ class ServicesRelationManager extends RelationManager
                     ]))
                     ->form(function ($action) {
                         return [
-                          $action->getRecordSelect()->autofocus(),
+                            $action->getRecordSelect()->autofocus(),
                             Forms\Components\Toggle::make('is_paid')
-                                ->after(fn ($livewire) => $livewire->ownerRecord->update([
-                                    'status' => $livewire->ownerRecord->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : null,
-                                ]))
                         ];
                     }),
             ])

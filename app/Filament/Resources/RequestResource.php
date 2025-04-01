@@ -202,7 +202,7 @@ class RequestResource extends Resource
                     ->visible(fn ($record) => !is_null($record->veterinarian_id) && auth()->user()->id === $record->veterinarian_id && !in_array($record->status, ['completed', 'canceled']))
                     ->action(function ($record){
                         $record->update([
-                            'status' => 'canceled'
+                            'status' => $record->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : 'canceled',
                         ]);
                     }),
                 Tables\Actions\Action::make('Complete')
@@ -212,7 +212,7 @@ class RequestResource extends Resource
                     ->visible(fn ($record) => !is_null($record->veterinarian_id) && auth()->user()->id === $record->veterinarian_id && !in_array($record->status, ['completed', 'canceled']))
                     ->action(function ($record){
                         $record->update([
-                            'status' => 'completed'
+                            'status' => $record->services()->wherePivot('is_paid', false)->exists() ? 'pending_pay' : 'completed',
                         ]);
                     }),
                 Tables\Actions\Action::make('Accept')

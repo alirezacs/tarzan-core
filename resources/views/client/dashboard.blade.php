@@ -278,7 +278,7 @@
                         <span class="text-[28px] font-bold">
                             لیست علاقه مندی ها
                         </span>
-                        <a href="#">لیست محصولات</a>
+                        <a href="{{ route('product.index') }}">لیست محصولات</a>
                     </div>
                     <div>
                         <table class="w-full">
@@ -320,7 +320,6 @@
                         <span class="text-[28px] font-bold">
                             درخواست های شما
                         </span>
-                        <a href="#">درخواست جدید</a>
                     </div>
                     <div>
                         <table class="table-fixed">
@@ -399,13 +398,14 @@
                                         <td class="px-4 py-3 text-sm border">{{ $request->address->lng ? $request->address->lng : 'ندارد' }}</td>
                                         <td class="px-4 py-3 text-sm border">
                                             <button class="bg-red-500 text-white py-1 px-3">حذف</button>
-                                            <button class="bg-yellow-500 text-white py-1 px-3">ویرایش</button>
                                         </td>
                                     </tr>
                                 @endforeach
                             @endif
                             </tbody>
                         </table>
+                        <div class="border-solid border-gray-500 border-t-2 mt-2 pt-2">
+                        </div>
                     </div>
                 </div>
                 <div class="profile-page flex flex-col" id="profile-pets">

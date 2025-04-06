@@ -31,7 +31,7 @@ class AddressController extends Controller
 
     public function destroy(Address $address)
     {
-        // check for exists request
+        // check for exists PetController
         if($address->requests->count()){
             session()->flash('notification', 'این ادرس در یکی از درخواست های شما ثبت شده است. شما نمیتوانید این ادرس را حذف کنید.');
             return redirect(route('dashboard') . '#profile-addresses');

@@ -11,6 +11,7 @@ use App\Http\Controllers\Client\BasketController;
 use App\Http\Controllers\Client\BlogController;
 use App\Http\Controllers\Client\RequestController;
 use App\Http\Controllers\Client\AddressController;
+use App\Http\Controllers\Client\PetController;
 
 /* Home Route */
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,6 +43,10 @@ Route::middleware('auth')->prefix('profile')->group(function () {
     /* Address Routes */
     Route::resource('address', AddressController::class)->only(['store', 'destroy']);
     /* Address Routes */
+
+    /* Pet Routes */
+    Route::resource('pet', PetController::class)->only(['store', 'destroy']);
+    /* Pet Routes */
 });
 
 /* Product Routes */

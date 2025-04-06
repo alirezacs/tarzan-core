@@ -342,7 +342,7 @@
                                 @foreach($requests as $request)
                                     <tr class="text-gray-700">
                                         <td class="px-4 py-3 text-sm border">{{ $request->request_type->name }}</td>
-                                        <td class="px-4 py-3 text-sm border">{{ $request->pet->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->pet ? $request->pet->name : 'پت حذف شده' }}</td>
                                         <td class="px-4 py-3 text-sm border">{{ $request->handling_type->name }}</td>
                                         <td class="px-4 py-3 text-sm border">Dr. {{ $request->veterinarian ? $request->veterinarian->first_name . ' ' . $request->veterinarian->last_name : 'در انتظار دامپزشک' }}</td>
                                         <td class="px-4 py-3 text-sm border">
@@ -361,7 +361,7 @@
                                                 @break
                                             @endswitch
                                         </td>
-                                        <td class="px-4 py-3 text-sm border">{{ $request->address->name }}</td>
+                                        <td class="px-4 py-3 text-sm border">{{ $request->address ? $request->address->name : 'ادرس حذف شده' }}</td>
                                         <td class="px-4 py-3 text-sm border">{{ $request->total_paid }}</td>
                                         <td class="px-4 py-3 text-sm border">{{ \Morilog\Jalali\Jalalian::forge($request->handling_date)->format('%A, %d %B %y') }}</td>
                                         <td class="px-4 py-3 text-sm border">{{ $request->is_emergency ? 'هست' : 'نیست' }}</td>
@@ -417,6 +417,9 @@
                         <span class="text-[28px] font-bold">
                             پت های شما
                         </span>
+                        <button class="bg-green-700 text-white py-1 px-5 rounded-[8px]" onclick="openModal('createPetModal')">
+                            پت جدید
+                        </button>
                     </div>
                     <div>
                         <table class="table-fixed w-full">
@@ -442,8 +445,11 @@
                                         <td class="px-4 py-3 text-sm border">{{ $pet->breed->name }}</td>
                                         <td class="px-4 py-3 text-sm border">{{ $pet->PetCategory->name }}</td>
                                         <td class="px-4 py-3 text-sm border">
-                                            <button class="bg-red-500 text-white py-1 px-3">حذف</button>
-                                            <button class="bg-yellow-500 text-white py-1 px-3">ویرایش</button>
+                                            <form action="{{ route('pet.destroy', $pet->id) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="bg-red-500 text-white py-1 px-3" type="submit">حذف</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -473,6 +479,39 @@
             </form>
         </div>
     </div>
+    <div class="hidden justify-center items-center w-full h-full absolute top-0 right-0 bg-black/50" id="createPetModal" onclick="closeModal(event, 'createPetModal')">
+        <div class="min-w-[40%] p-4 bg-white shadow-md shadow-white rounded-[10px] flex flex-col">
+            <form action="{{ route('pet.store') }}" method="POST" class="flex flex-col">
+                @csrf
+                <label for="pet_category_id">دسته بندی پت شما:</label>
+                <select name="pet_category_id" id="pet_category_id" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-4">
+                    @foreach($petCategories as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+                <label for="breed_id">نژاد پت شما:</label>
+                <select name="breed_id" id="breed_id" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-4">
+                    @foreach($breeds as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+                <label for="name">نام پت شما</label>
+                <input type="text" id="name" placeholder="نام پت شما" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-4" name="name">
+                <label for="name">تاریخ تولد پت شما</label>
+                <input type="date" id="birthdate" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-4" name="birthdate">
+                <label for="gender">جنسیت پت شما:</label>
+                <select name="gender" id="gender" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-4">
+                    <option value="male">نر</option>
+                    <option value="female">ماده</option>
+                </select>
+                <label for="skin_color">رنگ پوست پت شما:</label>
+                <input type="color" placeholder="رنگ پوست پت شما" name="skin_color" id="skin_color" class="border-gray-400 border-solid border-b-2 outline-none p-2 mb-4">
+
+
+                <button class="bg-green-600 rounded-[8px] text-white py-1 px-5 text-sm">ذخیره</button>
+            </form>
+        </div>
+    </div>
 
 @endsection
 
@@ -491,7 +530,6 @@
 
         const openModal = (modal) => {
             document.getElementById(modal).style.display = 'flex';
-            document.querySelector('body').style.overflow = 'hidden';
         }
         const closeModal = (event, modal) => {
             if(event.target.id === modal){

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Breed;
+use App\Models\PetCategory;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,6 +16,9 @@ class DashboardController extends Controller
         $addresses = auth()->user()->addresses->all();
         $pets = auth()->user()->pets->all();
         $favorites = auth()->user()->favorites->all();
-        return view('client.dashboard', compact('orders', 'requests', 'addresses', 'pets', 'favorites'));
+        $petCategories = PetCategory::query()->where('is_active', 1)->get();
+        $breeds = Breed::query()->where('is_active', 1)->get();
+
+        return view('client.dashboard', compact('orders', 'requests', 'addresses', 'pets', 'favorites', 'petCategories', 'breeds'));
     }
 }

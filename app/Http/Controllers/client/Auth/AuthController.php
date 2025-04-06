@@ -19,13 +19,17 @@ class AuthController extends Controller
 
     public function authentication(LoginRequest $request)
     {
+        if(auth()->check()){
+            return redirect()->route('dashboard');
+        }
         $credentials = $request->only('phone', 'password');
 
         if($request->login_type === 'password'){
             if(Auth::attempt($credentials)){
                 return redirect()->route('dashboard');
             }else{
-                return redirect()->back()->withErrors(['message' => 'اطلاعات وارد شده درست نمیباشد']);
+                session()->flash('notification', 'اطلاعات وارد شده معتبر نمیباشد');
+                return redirect()->back();
             }
         }
     }

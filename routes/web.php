@@ -20,6 +20,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 /* Login Routes */
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authentication'])->name('authentication');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 /* Login Routes */
 
 Route::middleware('auth')->prefix('profile')->group(function () {

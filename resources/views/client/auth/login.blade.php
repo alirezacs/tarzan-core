@@ -32,23 +32,40 @@
 
                     <!-- "عضویت" section  -->
                     <div class="signupForm">
-                        <form action="/" scroll="{false}" class="signup-form">
+                        <form action="{{ route('register') }}" method="POST" scroll="{false}" class="signup-form">
+                            @csrf
                             <div class="form-group">
-                                <input type="text" placeholder="نام" required />
-                                <label htmlFor="" class="form-label"> نام </label>
+                                <input type="text" name="first_name" placeholder="نام" required />
+                                <label class="form-label"> نام </label>
                             </div>
+                            @error('first_name')
+                            <p class="text-red-600">{{ $message }}</p>
+                            @enderror
                             <div class="form-group">
-                                <input type="text" placeholder=" نام خانوادگی" required />
-                                <label htmlFor="" class="form-label"> نام خانوادگی </label>
+                                <input type="text" name="last_name" placeholder=" نام خانوادگی" required />
+                                <label class="form-label"> نام خانوادگی </label>
                             </div>
+                            @error('last_name')
+                            <p class="text-red-600">{{ $message }}</p>
+                            @enderror
                             <div class="form-group">
-                                <input type="number" placeholder=" تلفن" required />
-                                <label htmlFor="" class="form-label"> شماره تلفن </label>
+                                <input type="number" name="phone" placeholder=" تلفن" required />
+                                <label class="form-label"> شماره تلفن </label>
                             </div>
+                            @error('phone')
+                            <p class="text-red-600">{{ $message }}</p>
+                            @enderror
+                            <div class="form-group">
+                                <input type="password" name="password" placeholder="رمزعبور" required />
+                                <label class="form-label"> رمزعبور </label>
+                            </div>
+                            @error('password')
+                                <p class="text-red-600">{{ $message }}</p>
+                            @enderror
                             <button
                                 class="bg-[--primary-color] text-white w-[30%] rounded-full py-2 px-5 duration-300 ease-in-out hover:bg-[--secondary-color] whitespace-nowrap"
                             >
-                                ارسال پیامک
+                                 ثبت نام
                             </button>
                         </form>
                     </div>

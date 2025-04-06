@@ -10,7 +10,7 @@
 
     @yield('header')
 </head>
-<body style="direction: rtl;">
+<body style="direction: rtl; position: relative">
 
 @if(session()->exists('notification'))
     <div class="min-w-[300px] max-w-[600px] p-4 {{ session()->exists('notification-success') ? 'bg-green-700' : 'bg-red-700' }} text-white rounded-[8px] fixed z-[100] bottom-[5%] right-[3%] transition">

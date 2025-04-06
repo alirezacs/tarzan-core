@@ -1,7 +1,8 @@
 @extends('client.layout.master')
 
 @section('header')
-
+    <link rel="stylesheet" href="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.css"/>
+    <script src="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.js"></script>
 @endsection
 
 @section('content')
@@ -376,28 +377,31 @@
                         <span class="text-[28px] font-bold">
                             ادرس های شما
                         </span>
+                        <button class="bg-green-700 text-white py-1 px-5 rounded-[8px]" onclick="openModal('createAddressModal')">
+                            ادرس جدید
+                        </button>
                     </div>
                     <div>
                         <table class="table-fixed w-full">
                             <thead>
                             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                <th class="px-4 py-3">اسم</th>
-                                <th class="px-4 py-3">ادرس</th>
-                                <th class="px-4 py-3">لت</th>
-                                <th class="px-4 py-3">لانگ</th>
-                                <th class="px-4 py-3">عملیات</th>
+                                <th class="px-4 py-3 text-center">اسم</th>
+                                <th class="px-4 py-3 text-center">ادرس</th>
+                                <th class="px-4 py-3 text-center">عملیات</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white">
                             @if($addresses)
                                 @foreach($addresses as $address)
                                     <tr class="text-gray-700">
-                                        <td class="px-4 py-3 text-sm border">{{ $request->address->name }}</td>
-                                        <td class="px-4 py-3 text-sm border">{{ $request->address->address }}</td>
-                                        <td class="px-4 py-3 text-sm border">{{ $request->address->lat ? $request->address->lat : 'ندارد' }}</td>
-                                        <td class="px-4 py-3 text-sm border">{{ $request->address->lng ? $request->address->lng : 'ندارد' }}</td>
-                                        <td class="px-4 py-3 text-sm border">
-                                            <button class="bg-red-500 text-white py-1 px-3">حذف</button>
+                                        <td class="px-4 py-3 text-sm border text-center">{{ $address->name }}</td>
+                                        <td class="px-4 py-3 text-sm border text-center">{{ $address->address }}</td>
+                                        <td class="px-4 py-3 text-sm border text-center">
+                                            <form action="{{ route('address.destroy', $address->id) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="bg-red-500 text-white py-1 px-3" type="submit">حذف</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -456,11 +460,26 @@
         </div>
     </div>
 
+    <div class="hidden justify-center items-center w-full h-full absolute top-0 right-0 bg-black/50" id="createAddressModal" onclick="closeModal(event, 'createAddressModal')">
+        <div class="min-w-[40%] p-4 bg-white shadow-md shadow-white rounded-[10px] flex flex-col">
+            <form action="{{ route('address.store') }}" method="POST">
+                @csrf
+                <input type="text" placeholder="نام ادرس" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-3" name="name">
+                <input type="text" placeholder="ادرس" class="w-full border-gray-400 border-solid border-b-2 outline-none p-2 mb-3" name="address" id="address-field">
+                <input type="hidden" name="latitude">
+                <input type="hidden" name="longitude">
+                <div class="w-full h-[300px] mb-3" id="map"></div>
+                <button class="bg-green-600 rounded-[8px] text-white py-1 px-5 text-sm">ثبت ادرس</button>
+            </form>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
     <script>
         let current = new URL(document.URL).hash.slice(1) || 'profile-dashboard';
+        console.log(current)
         const changeProfilePage = (tab) => {
             let pages = document.querySelectorAll('.profile-page');
             pages.forEach(page => {
@@ -469,5 +488,61 @@
             document.getElementById(tab).classList.remove('hidden');
         }
         changeProfilePage(current);
+
+        const openModal = (modal) => {
+            document.getElementById(modal).style.display = 'flex';
+            document.querySelector('body').style.overflow = 'hidden';
+        }
+        const closeModal = (event, modal) => {
+            if(event.target.id === modal){
+                document.getElementById(modal).style.display = 'none';
+                document.querySelector('body').style.overflow = 'auto';
+            }
+        }
+
+        const changeAddressTab = (tab) => {
+            if(tab === 'address'){
+                document.getElementById('address-tab-btn').classList.add('bg-gray-500');
+                document.getElementById('address-tab-btn').classList.add('text-white');
+                document.getElementById('location-tab-btn').classList.remove('bg-gray-500', 'text-white');
+                document.getElementById('address-tab').classList.remove('hidden');
+                document.getElementById('location-tab').classList.add('hidden');
+            }else{
+                document.getElementById('location-tab-btn').classList.add('bg-gray-500');
+                document.getElementById('location-tab-btn').classList.add('text-white');
+                document.getElementById('address-tab-btn').classList.remove('bg-gray-500', 'text-white');
+                document.getElementById('location-tab').classList.remove('hidden');
+                document.getElementById('address-tab').classList.add('hidden');
+            }
+        }
+    </script>
+    <script type="module">
+        const testLMap = new L.Map("map", {
+            key: "web.6f4550c9ebef4894b5dd2e2fe5c7f62c",
+            maptype: "neshan",
+            poi: false,
+            center: [35.699756, 51.338076],
+            zoom: 14,
+        })
+        let marker = L.marker([35.699756, 51.338076], {draggable: true})
+            .addTo(testLMap)
+            .on('dragend', e => {
+                getAddress(e.target.getLatLng().lat, e.target.getLatLng().lng);
+                document.getElementsByName('latitude')[0].value = e.target.getLatLng().lat;
+                document.getElementsByName('longitude')[0].value = e.target.getLatLng().lng;
+            });
+        const getAddress = async (lat, lng) => {
+            await fetch(`https://api.neshan.org/v5/reverse?lat=${lat}&lng=${lng}`, {
+                headers: {
+                    "Api-Key": "service.11acc59616cc4c5f89f67c860a1fb3eb"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status === 'OK'){
+                        document.getElementById('address-field').setAttribute('value', data.formatted_address);
+                    }
+                });
+        }
     </script>
 @endsection

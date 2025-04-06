@@ -10,6 +10,7 @@ use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\BasketController;
 use App\Http\Controllers\Client\BlogController;
 use App\Http\Controllers\Client\RequestController;
+use App\Http\Controllers\Client\AddressController;
 
 /* Home Route */
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,6 +38,10 @@ Route::middleware('auth')->prefix('profile')->group(function () {
     Route::post('basket/decrease', [BasketController::class, 'decreaseItem'])->name('basket.decrease');
     Route::post('basket/pay', [BasketController::class, 'pay'])->name('basket.pay');
     /* Basket Controller */
+
+    /* Address Routes */
+    Route::resource('address', AddressController::class)->only(['store', 'destroy']);
+    /* Address Routes */
 });
 
 /* Product Routes */
